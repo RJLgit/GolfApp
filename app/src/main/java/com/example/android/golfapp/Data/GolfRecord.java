@@ -3,6 +3,7 @@ package com.example.android.golfapp.Data;
 import java.sql.Date;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "GolfScores")
@@ -15,7 +16,8 @@ public class GolfRecord {
     private int par;
     private int score;
     private java.util.Date date;
-
+    //Used when we create new GolfRecord objects. No id as it is auto generated
+    @Ignore
     public GolfRecord(String name, String course, int par, int score, java.util.Date date) {
         this.name = name;
         this.course = course;
@@ -23,7 +25,7 @@ public class GolfRecord {
         this.score = score;
         this.date = date;
     }
-
+    //Room uses this constructor to load the GolfRecord objects after the id has been auto generated
     public GolfRecord(int id, String name, String course, int par, int score, Date date) {
         this.id = id;
         this.name = name;
