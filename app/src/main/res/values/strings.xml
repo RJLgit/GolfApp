@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">GolfApp</string>
+
+
+    <!--Menu strings-->
+    <string name="menu_stats_title">See stats</string>
+    <string name="menu_list_title">See rounds</string>
+    <string name="menu_enter_title">Enter round</string>
+
 </resources>
