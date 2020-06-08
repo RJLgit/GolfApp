@@ -2,6 +2,7 @@ package com.example.android.golfapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
@@ -14,6 +15,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     //UI elements
     FrameLayout container;
     BottomNavigationView bottomNavigationView;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +25,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         container = findViewById(R.id.fragment_container);
         bottomNavigationView = findViewById(R.id.bott_nav_bar);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        toolbar = findViewById(R.id.toolbar);
 
+
+        setSupportActionBar(toolbar);
+        toolbar.setLogo(R.drawable.ic_app_icon);
+        
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, new EnterFragment()).commit();
 
