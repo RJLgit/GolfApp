@@ -6,13 +6,17 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.example.android.golfapp.Data.GolfDatabase;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+import java.util.Date;
+
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, EnterFragment.EnterFragmentListener {
+    private static final String TAG = "MainActivity";
     //UI elements
     FrameLayout container;
     BottomNavigationView bottomNavigationView;
@@ -41,6 +45,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, new EnterFragment()).commit();
 
+    }
+
+    @Override
+    public void onRecordSent(String name, String course, int par, int score, Date date) {
+        Log.d(TAG, "onRecordSent: " + "name: " + name + ". Course: " + course + ". Par: " + par
+        + ". Score: " + score + ". Date: " + date);
     }
 
     @Override

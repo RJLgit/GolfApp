@@ -1,6 +1,6 @@
 package com.example.android.golfapp.Data;
 
-import java.sql.Date;
+import java.util.Date;
 
 import androidx.room.Entity;
 import androidx.room.Ignore;
