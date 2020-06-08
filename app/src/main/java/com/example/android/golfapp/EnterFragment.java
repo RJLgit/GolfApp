@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 
 /**
@@ -15,7 +16,7 @@ import android.view.ViewGroup;
  */
 public class EnterFragment extends Fragment {
 
-
+    Button enterButton;
     public EnterFragment() {
         // Required empty public constructor
     }
@@ -25,6 +26,14 @@ public class EnterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        enterButton = container.findViewById(R.id.enterButton);
+        enterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
         return inflater.inflate(R.layout.fragment_enter, container, false);
     }
 
