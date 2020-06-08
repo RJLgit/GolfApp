@@ -16,6 +16,14 @@ public class GolfRecord {
     private int score;
     private java.util.Date date;
 
+    public GolfRecord(String name, String course, int par, int score, java.util.Date date) {
+        this.name = name;
+        this.course = course;
+        this.par = par;
+        this.score = score;
+        this.date = date;
+    }
+
     public GolfRecord(int id, String name, String course, int par, int score, Date date) {
         this.id = id;
         this.name = name;
