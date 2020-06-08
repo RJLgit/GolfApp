@@ -24,7 +24,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottomNavigationView = findViewById(R.id.bott_nav_bar);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
-
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, new EnterFragment()).commit();
 
     }
 
