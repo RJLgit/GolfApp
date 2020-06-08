@@ -30,7 +30,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         setSupportActionBar(toolbar);
         toolbar.setLogo(R.drawable.ic_app_icon);
+
         toolbar.setSubtitle(getString(R.string.toolbar_enter_subtitle));
+
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, new EnterFragment()).commit();
 
