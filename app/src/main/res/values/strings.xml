@@ -8,5 +8,8 @@
 
     <!--Toolbar strings-->
     <string name="toolbar_title">Your Golf App</string>
+    <string name="toolbar_enter_subtitle">Enter your result</string>
+    <string name="toolbar_list_subtitle">See your results</string>
+    <string name="toolbar_stats_subtitle">Check your stats</string>
 
 </resources>

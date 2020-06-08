@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         setSupportActionBar(toolbar);
         toolbar.setLogo(R.drawable.ic_app_icon);
-        
+        toolbar.setSubtitle(getString(R.string.toolbar_enter_subtitle));
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, new EnterFragment()).commit();
 
@@ -42,12 +42,15 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         switch (menuItem.getItemId()) {
             case R.id.nav_enter:
                 myFragment = new EnterFragment();
+                toolbar.setSubtitle(getString(R.string.toolbar_enter_subtitle));
                 break;
             case R.id.nav_list:
                 myFragment = new ListFragment();
+                toolbar.setSubtitle(getString(R.string.toolbar_list_subtitle));
                 break;
             case R.id.nav_stats:
                 myFragment = new StatsFragment();
+                toolbar.setSubtitle(getString(R.string.toolbar_stats_subtitle));
                 break;
         }
         getSupportFragmentManager().beginTransaction()
