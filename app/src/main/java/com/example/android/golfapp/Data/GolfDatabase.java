@@ -24,6 +24,10 @@ public abstract class GolfDatabase extends RoomDatabase {
                 Log.d(TAG, "Creating new db instance");
                 mInstance = Room.databaseBuilder(context.getApplicationContext(),
                         GolfDatabase.class, GolfDatabase.DATABASE_NAME)
+                       /* !!!!!!!!!!!!!
+                                !!!!!!!!!!!!!
+                                        !!!!!!!!!!!!
+                                                Need to change this*/
                         .allowMainThreadQueries()
                         .build();
             }

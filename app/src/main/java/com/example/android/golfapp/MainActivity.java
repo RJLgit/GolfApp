@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
+import com.example.android.golfapp.Data.GolfDatabase;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
@@ -16,6 +17,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     FrameLayout container;
     BottomNavigationView bottomNavigationView;
     Toolbar toolbar;
+    //Database variables
+    private GolfDatabase myGolfDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         toolbar.setLogo(R.drawable.ic_app_icon);
 
         toolbar.setSubtitle(getString(R.string.toolbar_enter_subtitle));
+
+        myGolfDatabase = GolfDatabase.getInstance(this);
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, new EnterFragment()).commit();
