@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         ((EnterFragment) myEnterFragment).setNames(new String[]{"Bob", "Tony", "Jeff"});
 
 
+
+
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, myEnterFragment).commit();
 

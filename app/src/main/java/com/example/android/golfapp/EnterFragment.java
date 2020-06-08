@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -23,6 +25,8 @@ import java.util.Date;
  * A simple {@link Fragment} subclass.
  */
 public class EnterFragment extends Fragment {
+
+    private static final String TAG = "EnterFragment";
     //UI elements
     AutoCompleteTextView nameEditText;
     AutoCompleteTextView courseEditText;
@@ -91,21 +95,30 @@ public class EnterFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 //Need to add checks that not null
-                String name = nameEditText.getText().toString();
-                String course = courseEditText.getText().toString();
-                int par = Integer.parseInt(parEditText.getText().toString());
-                int score = Integer.parseInt(scoreEditText.getText().toString());
-                SimpleDateFormat myDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                Date date = new Date();
-                try {
-                    date = myDateFormat.parse(dateEditText.getText().toString());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                if (listener != null) {
-                    listener.onRecordSent(name, course, par, score, date);
-                }
 
+                try {
+                    String name = nameEditText.getText().toString();
+                    String course = courseEditText.getText().toString();
+                    Log.d(TAG, "onClick: " + name);
+                    if (name.equals("") || course.equals("")) {
+                        Toast.makeText(getContext(), "Must enter a valid course and name", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "onClick: failed due to name");
+                        return;
+                    }
+                    int par = Integer.parseInt(parEditText.getText().toString());
+                    int score = Integer.parseInt(scoreEditText.getText().toString());
+                    SimpleDateFormat myDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                    Date date = myDateFormat.parse(dateEditText.getText().toString());
+                    if (listener != null) {
+                        listener.onRecordSent(name, course, par, score, date);
+                    }
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getContext(), "Must enter a number for both the par and score", Toast.LENGTH_SHORT).show();
+                } catch (Exception exc) {
+                    exc.printStackTrace();
+                    Toast.makeText(getContext(), "Must enter a valid date", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
