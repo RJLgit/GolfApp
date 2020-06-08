@@ -111,6 +111,7 @@ public class EnterFragment extends Fragment {
                     Date date = myDateFormat.parse(dateEditText.getText().toString());
                     if (listener != null) {
                         listener.onRecordSent(name, course, par, score, date);
+                        clearAllFields();
                     }
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
@@ -123,6 +124,15 @@ public class EnterFragment extends Fragment {
         });
 
         return v;
+    }
+
+    private void clearAllFields() {
+        nameEditText.getText().clear();
+        courseEditText.getText().clear();
+        parEditText.getText().clear();
+        scoreEditText.getText().clear();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        dateEditText.setText(dateFormat.format(new Date()));
     }
 
     public String[] getNames() {
