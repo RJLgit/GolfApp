@@ -20,8 +20,9 @@ android:layout_height="match_parent">
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Spinner
-        android:id="@+id/name_spinner"
+    <AutoCompleteTextView
+        android:id="@+id/name_edit_text"
+        android:hint="Enter Name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
@@ -38,11 +39,12 @@ android:layout_height="match_parent">
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/name_label" />
 
-    <Spinner
-        android:id="@+id/course_spinner"
+    <AutoCompleteTextView
+        android:id="@+id/course_edit_text"
+        android:hint="Enter course"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@+id/name_spinner"
+        app:layout_constraintStart_toStartOf="@+id/name_edit_text"
         app:layout_constraintTop_toTopOf="@+id/course_label" />
 
     <TextView
@@ -60,7 +62,7 @@ android:layout_height="match_parent">
         android:layout_height="wrap_content"
         android:hint="Enter score"
         android:id="@+id/score_edit_text"
-        app:layout_constraintStart_toStartOf="@+id/name_spinner"
+        app:layout_constraintStart_toStartOf="@+id/name_edit_text"
         app:layout_constraintTop_toTopOf="@+id/score_label"
         android:inputType="number"
         />
@@ -80,7 +82,7 @@ android:layout_height="match_parent">
         android:layout_height="wrap_content"
         android:hint="Enter par"
         android:id="@+id/par_edit_text"
-        app:layout_constraintStart_toStartOf="@+id/name_spinner"
+        app:layout_constraintStart_toStartOf="@+id/name_edit_text"
         app:layout_constraintTop_toTopOf="@+id/par_label"
         android:inputType="number"
         />
@@ -102,7 +104,7 @@ android:layout_height="match_parent">
 
         android:inputType="date"
         android:id="@+id/date_edit_text"
-        app:layout_constraintStart_toStartOf="@+id/name_spinner"
+        app:layout_constraintStart_toStartOf="@+id/name_edit_text"
         app:layout_constraintTop_toTopOf="@+id/date_label"
         />
 

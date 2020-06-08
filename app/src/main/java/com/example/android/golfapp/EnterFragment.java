@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -22,8 +23,8 @@ import java.util.Date;
  */
 public class EnterFragment extends Fragment {
 
-    Spinner nameSpinner;
-    Spinner courseSpinner;
+    AutoCompleteTextView nameEditText;
+    AutoCompleteTextView courseEditText;
     EditText parEditText;
     EditText scoreEditText;
     EditText dateEditText;
@@ -45,8 +46,8 @@ public class EnterFragment extends Fragment {
         dateEditText = v.findViewById(R.id.date_edit_text);
         scoreEditText = v.findViewById(R.id.score_edit_text);
         parEditText = v.findViewById(R.id.par_edit_text);
-        courseSpinner = v.findViewById(R.id.course_spinner);
-        nameSpinner = v.findViewById(R.id.name_spinner);
+        courseEditText = v.findViewById(R.id.course_edit_text);
+        nameEditText = v.findViewById(R.id.name_edit_text);
         //Sets date to today by default. When user clicks it allow them to select date via a data picker alert
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         dateEditText.setText(dateFormat.format(new Date()));
@@ -58,8 +59,8 @@ public class EnterFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 //Need to add checks that not null
-                String name = nameSpinner.getSelectedItem().toString();
-                String course = courseSpinner.getSelectedItem().toString();
+                String name = nameEditText.getText().toString();
+                String course = courseEditText.getText().toString();
                 int par = Integer.parseInt(parEditText.getText().toString());
                 int score = Integer.parseInt(scoreEditText.getText().toString());
                 SimpleDateFormat myDateFormat = new SimpleDateFormat("dd/MM/yyyy");
