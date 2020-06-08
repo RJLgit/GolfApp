@@ -63,6 +63,26 @@
         />
 
     <TextView
+        android:id="@+id/par_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="48dp"
+        android:text="Par"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/score_label" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Enter par"
+        android:id="@+id/par_edit_text"
+        app:layout_constraintStart_toStartOf="@+id/name_spinner"
+        app:layout_constraintTop_toTopOf="@+id/par_label"
+        android:inputType="number"
+        />
+
+    <TextView
         android:id="@+id/date_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -70,7 +90,7 @@
         android:layout_marginTop="48dp"
         android:text="Date"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/score_label" />
+        app:layout_constraintTop_toBottomOf="@id/par_label" />
 
     <EditText
         android:layout_width="wrap_content"
