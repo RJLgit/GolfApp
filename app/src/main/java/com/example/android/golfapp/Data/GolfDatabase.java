@@ -23,7 +23,9 @@ public abstract class GolfDatabase extends RoomDatabase {
             synchronized (LOCK) {
                 Log.d(TAG, "Creating new db instance");
                 mInstance = Room.databaseBuilder(context.getApplicationContext(),
-                        GolfDatabase.class, GolfDatabase.DATABASE_NAME).build();
+                        GolfDatabase.class, GolfDatabase.DATABASE_NAME)
+                        .allowMainThreadQueries()
+                        .build();
             }
         }
         Log.d(TAG, "Getting db instance");
