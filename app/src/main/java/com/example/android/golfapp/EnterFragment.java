@@ -116,16 +116,23 @@ public class EnterFragment extends Fragment {
         return names;
     }
 
+    //When names is set them it sets adapter to the edit text
     public void setNames(String[] names) {
         this.names = names;
+        ArrayAdapter<String> namesAdapter = new ArrayAdapter<String>(getContext(),
+                android.R.layout.simple_dropdown_item_1line, names);
+        nameEditText.setAdapter(namesAdapter);
     }
 
     public String[] getCourses() {
         return courses;
     }
-
+    //When courses is set then it sets the courses to the edit text
     public void setCourses(String[] courses) {
         this.courses = courses;
+        ArrayAdapter<String> coursesAdapter = new ArrayAdapter<String>(getContext(),
+                android.R.layout.simple_dropdown_item_1line, courses);
+        courseEditText.setAdapter(coursesAdapter);
     }
 
     @Override
