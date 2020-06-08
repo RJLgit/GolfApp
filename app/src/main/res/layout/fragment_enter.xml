@@ -22,12 +22,16 @@ android:layout_height="match_parent">
 
     <AutoCompleteTextView
         android:id="@+id/name_edit_text"
+        android:completionThreshold="0"
+        android:dropDownHeight="wrap_content"
         android:hint="Enter Name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
         app:layout_constraintStart_toEndOf="@+id/name_label"
-        app:layout_constraintTop_toTopOf="@+id/name_label" />
+        app:layout_constraintTop_toTopOf="@+id/name_label"
+        android:maxLines="1"
+        android:minLines="1"/>
 
     <TextView
         android:id="@+id/course_label"
@@ -41,11 +45,15 @@ android:layout_height="match_parent">
 
     <AutoCompleteTextView
         android:id="@+id/course_edit_text"
+        android:completionThreshold="0"
         android:hint="Enter course"
+        android:dropDownHeight="wrap_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@+id/name_edit_text"
-        app:layout_constraintTop_toTopOf="@+id/course_label" />
+        app:layout_constraintTop_toTopOf="@+id/course_label"
+        android:maxLines="1"
+        android:minLines="1"/>
 
     <TextView
         android:id="@+id/score_label"

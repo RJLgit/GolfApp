@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -54,8 +55,36 @@ public class EnterFragment extends Fragment {
         //Sets date to today by default. When user clicks it allow them to select date via a data picker alert
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         dateEditText.setText(dateFormat.format(new Date()));
+        //Sets adapters to AutoCompleteTextViews
+        ArrayAdapter<String> namesAdapter = new ArrayAdapter<String>(getContext(),
+                android.R.layout.simple_dropdown_item_1line, names);
+        nameEditText.setAdapter(namesAdapter);
 
-
+        ArrayAdapter<String> coursesAdapter = new ArrayAdapter<String>(getContext(),
+                android.R.layout.simple_dropdown_item_1line, courses);
+        courseEditText.setAdapter(coursesAdapter);
+        //Shows dropdown when has focus
+        nameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (b) {
+                    nameEditText.showDropDown();
+                } else {
+                    nameEditText.dismissDropDown();
+                }
+            }
+        });
+        //Shows dropdown when has focus
+        courseEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (b) {
+                    courseEditText.showDropDown();
+                } else {
+                    courseEditText.dismissDropDown();
+                }
+            }
+        });
 
 
         enterButton.setOnClickListener(new View.OnClickListener() {

@@ -42,8 +42,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         myGolfDatabase = GolfDatabase.getInstance(this);
 
+        Fragment myEnterFragment = new EnterFragment();
+        //Will need to replace this with data obtained from the database
+        ((EnterFragment) myEnterFragment).setNames(new String[]{"Bob", "Tony", "Jeff"});
+
+
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, new EnterFragment()).commit();
+                .replace(R.id.fragment_container, myEnterFragment).commit();
 
     }
 
@@ -59,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         switch (menuItem.getItemId()) {
             case R.id.nav_enter:
                 myFragment = new EnterFragment();
+                ((EnterFragment) myFragment).setNames(new String[]{"Bob", "Tony", "Jeff"});
                 toolbar.setSubtitle(getString(R.string.toolbar_enter_subtitle));
                 break;
             case R.id.nav_list:
