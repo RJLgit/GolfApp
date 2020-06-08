@@ -6,7 +6,7 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "GolfScores")
+@Entity(tableName = "golfscores")
 public class GolfRecord {
 
     @PrimaryKey(autoGenerate =  true)

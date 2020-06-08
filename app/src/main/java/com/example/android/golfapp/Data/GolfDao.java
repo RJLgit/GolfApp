@@ -9,15 +9,15 @@ import androidx.room.Query;
 
 @Dao
 public interface GolfDao {
-    @Query("SELECT * FROM GolfScores ORDER BY date")
+    @Query("SELECT * FROM golfscores ORDER BY date")
     List<GolfRecord> loadAllTasks();
 
     //Can make list a set to remove duplicates later
-    @Query("SELECT name from GolfScores")
+    @Query("SELECT name from golfscores")
     List<String> getAllNames();
 
     //Can make list a set to remove duplicates later
-    @Query("SELECT course from GolfScores")
+    @Query("SELECT course from golfscores")
     List<String> getAllCourses();
 
     @Insert
