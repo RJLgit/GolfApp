@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.example.android.golfapp.Data.GolfDatabase;
+import com.example.android.golfapp.Data.GolfRecord;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Date;
@@ -51,11 +52,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 .replace(R.id.fragment_container, myEnterFragment).commit();
 
     }
-
+    //Inserts the record in the database
     @Override
     public void onRecordSent(String name, String course, int par, int score, Date date) {
         Log.d(TAG, "onRecordSent: " + "name: " + name + ". Course: " + course + ". Par: " + par
         + ". Score: " + score + ". Date: " + date);
+        GolfRecord golfRecord = new GolfRecord(name, course, par, score, date);
+        myGolfDatabase.golfDao().insertGolfRecord(golfRecord);
     }
 
     @Override
