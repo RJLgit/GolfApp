@@ -22,14 +22,17 @@ import java.util.Date;
  * A simple {@link Fragment} subclass.
  */
 public class EnterFragment extends Fragment {
-
+    //UI elements
     AutoCompleteTextView nameEditText;
     AutoCompleteTextView courseEditText;
     EditText parEditText;
     EditText scoreEditText;
     EditText dateEditText;
-
     Button enterButton;
+
+    //Auto-complete arrays of strings for each auto Complete text view
+    private String[] names = new String[]{};
+    private String[] courses = new String[] {};
 
     private EnterFragmentListener listener;
     public EnterFragment() {
@@ -78,6 +81,22 @@ public class EnterFragment extends Fragment {
         });
 
         return v;
+    }
+
+    public String[] getNames() {
+        return names;
+    }
+
+    public void setNames(String[] names) {
+        this.names = names;
+    }
+
+    public String[] getCourses() {
+        return courses;
+    }
+
+    public void setCourses(String[] courses) {
+        this.courses = courses;
     }
 
     @Override
