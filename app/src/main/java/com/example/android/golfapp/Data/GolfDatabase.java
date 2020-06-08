@@ -3,10 +3,11 @@ package com.example.android.golfapp.Data;
 import android.content.Context;
 import android.util.Log;
 
-import androidx.core.content.ContextCompat;
+import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+@Database(entities = {GolfRecord.class}, version = 1, exportSchema = false)
 public abstract class GolfDatabase extends RoomDatabase {
 
     private static final String TAG = GolfDatabase.class.getSimpleName();
@@ -25,5 +26,7 @@ public abstract class GolfDatabase extends RoomDatabase {
         Log.d(TAG, "Getting db instance");
         return mInstance;
     }
+
+    public abstract GolfDao golfDao();
 
 }
