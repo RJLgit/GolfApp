@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.AsyncTask;
@@ -18,6 +19,9 @@ import com.example.android.golfapp.Data.GolfViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, EnterFragment.EnterFragmentListener {
     private static final String TAG = "MainActivity";
@@ -27,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     Toolbar toolbar;
     //Database variables
     private GolfDatabase myGolfDatabase;
+    GolfViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,12 +51,29 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         myGolfDatabase = GolfDatabase.getInstance(this);
 
-        Fragment myEnterFragment = new EnterFragment();
+        final EnterFragment myEnterFragment = new EnterFragment();
+
+        viewModel = new ViewModelProvider(this).get(GolfViewModel.class);
+        viewModel.getNames().observe(this, new Observer<List<String>>() {
+            @Override
+            public void onChanged(List<String> golfNames) {
+                Log.d(TAG, "onChanged: " + "set names adapter");
+                Set<String> removeDuplicatesSet = new HashSet<>(golfNames);
+                String[] arr = removeDuplicatesSet.toArray(new String[removeDuplicatesSet.size()]);
+                myEnterFragment.setNames(arr);
+            }
+        });
+        viewModel.getCourses().observe(this, new Observer<List<String>>() {
+            @Override
+            public void onChanged(List<String> golfCourses) {
+                Log.d(TAG, "onChanged: " + "set courses adapter");
+                Set<String> removeDuplicatesSet = new HashSet<>(golfCourses);
+                String[] arr = removeDuplicatesSet.toArray(new String[removeDuplicatesSet.size()]);
+                myEnterFragment.setCourses(arr);
+            }
+        });
         //Will need to replace this with data obtained from the database
-        ((EnterFragment) myEnterFragment).setNames(new String[]{"Bob", "Tony", "Jeff"});
-
-
-
+        //((EnterFragment) myEnterFragment).setNames(new String[]{"Bob", "Tony", "Jeff"});
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, myEnterFragment).commit();
@@ -72,21 +94,46 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         Fragment myFragment = null;
         switch (menuItem.getItemId()) {
             case R.id.nav_enter:
-                myFragment = new EnterFragment();
-                ((EnterFragment) myFragment).setNames(new String[]{"Bob", "Tony", "Jeff"});
+                final EnterFragment enterFragment = new EnterFragment();
+                viewModel.getNames().observe(this, new Observer<List<String>>() {
+                    @Override
+                    public void onChanged(List<String> golfNames) {
+                        Log.d(TAG, "onChanged: " + "set names adapter");
+                        Set<String> removeDuplicatesSet = new HashSet<>(golfNames);
+                        String[] arr = removeDuplicatesSet.toArray(new String[removeDuplicatesSet.size()]);
+                        enterFragment.setNames(arr);
+                    }
+                });
+                viewModel.getCourses().observe(this, new Observer<List<String>>() {
+                    @Override
+                    public void onChanged(List<String> golfCourses) {
+                        Log.d(TAG, "onChanged: " + "set courses adapter");
+                        Set<String> removeDuplicatesSet = new HashSet<>(golfCourses);
+                        String[] arr = removeDuplicatesSet.toArray(new String[removeDuplicatesSet.size()]);
+                        enterFragment.setCourses(arr);
+                    }
+                });
                 toolbar.setSubtitle(getString(R.string.toolbar_enter_subtitle));
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, enterFragment).commit();
                 break;
             case R.id.nav_list:
-                myFragment = new ListFragment(myGolfDatabase);
+                ListFragment listFragment = new ListFragment(myGolfDatabase);
                 toolbar.setSubtitle(getString(R.string.toolbar_list_subtitle));
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, listFragment).commit();
                 break;
             case R.id.nav_stats:
-                myFragment = new StatsFragment();
+                StatsFragment statsFragment = new StatsFragment();
                 toolbar.setSubtitle(getString(R.string.toolbar_stats_subtitle));
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, statsFragment).commit();
+                break;
+            default:
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, myFragment).commit();
                 break;
         }
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, myFragment).commit();
         return true;
     }
 }

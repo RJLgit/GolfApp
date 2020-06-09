@@ -14,16 +14,28 @@ public class GolfViewModel extends AndroidViewModel {
     private static final String TAG = "GolfViewModel";
 
     private LiveData<List<GolfRecord>> records;
+    private LiveData<List<String>> names;
+    private LiveData<List<String>> courses;
     private GolfDatabase database;
 
     public GolfViewModel(@NonNull Application application) {
         super(application);
         database = GolfDatabase.getInstance(getApplication());
         records = database.golfDao().loadAllRecords();
+        names = database.golfDao().getAllNames();
+        courses = database.golfDao().getAllCourses();
     }
 
     public LiveData<List<GolfRecord>> getRecords() {
         return records;
+    }
+
+    public LiveData<List<String>> getNames() {
+        return names;
+    }
+
+    public LiveData<List<String>> getCourses() {
+        return courses;
     }
 
     public void insertRecord(final GolfRecord record) {
@@ -34,4 +46,6 @@ public class GolfViewModel extends AndroidViewModel {
             }
         });
     }
+
+
 }

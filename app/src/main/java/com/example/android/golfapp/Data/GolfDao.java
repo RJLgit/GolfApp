@@ -15,11 +15,11 @@ public interface GolfDao {
 
     //Can make list a set to remove duplicates later
     @Query("SELECT name from golfscores")
-    List<String> getAllNames();
+    LiveData<List<String>> getAllNames();
 
     //Can make list a set to remove duplicates later
     @Query("SELECT course from golfscores")
-    List<String> getAllCourses();
+    LiveData<List<String>> getAllCourses();
 
     @Insert
     void insertGolfRecord(GolfRecord golfRecord);
