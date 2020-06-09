@@ -6,13 +6,16 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.android.golfapp.Data.AppExecutors;
 import com.example.android.golfapp.Data.GolfDatabase;
 import com.example.android.golfapp.Data.GolfRecord;
 
@@ -25,6 +28,7 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class ListFragment extends Fragment {
+    private static final String TAG = "ListFragment";
     RecyclerView myRecyclerView;
     GolfDatabase mDb;
 
@@ -53,14 +57,40 @@ public class ListFragment extends Fragment {
         GolfRecord g2 = new GolfRecord("Tom", "baroness", 71, 102, date);
         dummyData.add(g1);
         dummyData.add(g2);*/
+        myRecyclerView.setAdapter(adapter);
+
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            // Called when a user swipes left or right on a ViewHolder
+            @Override
+            public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                // Here is where you'll implement swipe to delete
+                AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        int position = viewHolder.getAdapterPosition();
+                        List<GolfRecord> records = adapter.getmData();
+                        mDb.golfDao().deleteTask(records.get(position));
+                    }
+                });
+            }
+        }).attachToRecyclerView(myRecyclerView);
+
         LiveData<List<GolfRecord>> records = mDb.golfDao().loadAllRecords();
         records.observe(getActivity(), new Observer<List<GolfRecord>>() {
             @Override
             public void onChanged(List<GolfRecord> golfRecords) {
+                Log.d(TAG, "onChanged: " + "updates from live data");
                 adapter.setmData(golfRecords);
-                myRecyclerView.setAdapter(adapter);
             }
         });
+
+
         return v;
     }
 
