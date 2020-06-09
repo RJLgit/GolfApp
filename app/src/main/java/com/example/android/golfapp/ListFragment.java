@@ -44,12 +44,13 @@ public class ListFragment extends Fragment {
 
         GolfAdapter adapter = new GolfAdapter(getContext());
         //Dummy data to test recyclerview
-        ArrayList<GolfRecord> dummyData = new ArrayList<>();
+       /* ArrayList<GolfRecord> dummyData = new ArrayList<>();
         Date date = new Date();
         GolfRecord g1 = new GolfRecord("Bob", "baron", 72, 94, date);
         GolfRecord g2 = new GolfRecord("Tom", "baroness", 71, 102, date);
         dummyData.add(g1);
-        dummyData.add(g2);
+        dummyData.add(g2);*/
+
         adapter.setmData(mDb.golfDao().loadAllTasks());
         myRecyclerView.setAdapter(adapter);
 
