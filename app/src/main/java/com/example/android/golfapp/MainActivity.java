@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -59,8 +60,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     public void onRecordSent(String name, String course, int par, int score, Date date) {
         Log.d(TAG, "onRecordSent: " + "name: " + name + ". Course: " + course + ". Par: " + par
         + ". Score: " + score + ". Date: " + date);
-        GolfRecord golfRecord = new GolfRecord(name, course, par, score, date);
-        myGolfDatabase.golfDao().insertGolfRecord(golfRecord);
+        final GolfRecord golfRecord = new GolfRecord(name, course, par, score, date);
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                myGolfDatabase.golfDao().insertGolfRecord(golfRecord);
+            }
+        });
     }
 
     @Override

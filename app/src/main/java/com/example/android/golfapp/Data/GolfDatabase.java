@@ -28,7 +28,7 @@ public abstract class GolfDatabase extends RoomDatabase {
                                 !!!!!!!!!!!!!
                                         !!!!!!!!!!!!
                                                 Need to change this*/
-                        .allowMainThreadQueries()
+                        //.allowMainThreadQueries()
                         .build();
             }
         }
