@@ -10,13 +10,14 @@ import com.example.android.golfapp.Data.GolfRecord;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class GolfAdapter extends RecyclerView.Adapter<GolfAdapter.GolfViewHolder> {
 
-    private ArrayList<GolfRecord> mData = new ArrayList<>();
+    private List<GolfRecord> mData = new ArrayList<>();
     private Context mContext;
 
     public GolfAdapter(Context context) {
@@ -45,7 +46,7 @@ public class GolfAdapter extends RecyclerView.Adapter<GolfAdapter.GolfViewHolder
         return mData.size();
     }
 
-    public void setmData(ArrayList<GolfRecord> mData) {
+    public void setmData(List<GolfRecord> mData) {
         this.mData = mData;
     }
 

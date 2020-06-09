@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.android.golfapp.Data.GolfDatabase;
 import com.example.android.golfapp.Data.GolfRecord;
 
 import java.util.ArrayList;
@@ -22,11 +23,15 @@ import java.util.Date;
  */
 public class ListFragment extends Fragment {
     RecyclerView myRecyclerView;
+    GolfDatabase mDb;
 
     public ListFragment() {
         // Required empty public constructor
     }
 
+    public ListFragment(GolfDatabase mDb) {
+        this.mDb = mDb;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,7 +50,7 @@ public class ListFragment extends Fragment {
         GolfRecord g2 = new GolfRecord("Tom", "baroness", 71, 102, date);
         dummyData.add(g1);
         dummyData.add(g2);
-        adapter.setmData(dummyData);
+        adapter.setmData(mDb.golfDao().loadAllTasks());
         myRecyclerView.setAdapter(adapter);
 
 

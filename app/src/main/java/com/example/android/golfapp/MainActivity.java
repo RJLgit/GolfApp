@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 toolbar.setSubtitle(getString(R.string.toolbar_enter_subtitle));
                 break;
             case R.id.nav_list:
-                myFragment = new ListFragment();
+                myFragment = new ListFragment(myGolfDatabase);
                 toolbar.setSubtitle(getString(R.string.toolbar_list_subtitle));
                 break;
             case R.id.nav_stats:
