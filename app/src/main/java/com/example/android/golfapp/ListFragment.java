@@ -1,6 +1,7 @@
 package com.example.android.golfapp;
 
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -22,6 +23,7 @@ import com.example.android.golfapp.Data.AppExecutors;
 import com.example.android.golfapp.Data.GolfDatabase;
 import com.example.android.golfapp.Data.GolfRecord;
 import com.example.android.golfapp.Data.GolfViewModel;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,6 +37,7 @@ public class ListFragment extends Fragment {
     private static final String TAG = "ListFragment";
     RecyclerView myRecyclerView;
     GolfDatabase mDb;
+    GolfRecord deletedItem = null;
 
     public ListFragment() {
         // Required empty public constructor
@@ -80,7 +83,22 @@ public class ListFragment extends Fragment {
                     public void run() {
                         int position = viewHolder.getAdapterPosition();
                         List<GolfRecord> records = adapter.getmData();
-                        mDb.golfDao().deleteTask(records.get(position));
+                        deletedItem = records.get(position);
+                        mDb.golfDao().deleteTask(deletedItem);
+                        Snackbar.make(viewHolder.itemView, "Removed item", Snackbar.LENGTH_LONG)
+                                .setAction("Undo", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        AsyncTask asyncTask = new AsyncTask() {
+                                            @Override
+                                            protected Object doInBackground(Object[] objects) {
+                                                mDb.golfDao().insertGolfRecord(deletedItem);
+                                                return null;
+                                            }
+                                        }.execute();
+
+                                    }
+                                }).show();
                     }
                 });
             }
