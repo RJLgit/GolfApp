@@ -1,6 +1,7 @@
 package com.example.android.golfapp.Data;
 
 import android.app.Application;
+import android.os.AsyncTask;
 
 import java.util.List;
 
@@ -13,14 +14,24 @@ public class GolfViewModel extends AndroidViewModel {
     private static final String TAG = "GolfViewModel";
 
     private LiveData<List<GolfRecord>> records;
+    private GolfDatabase database;
 
     public GolfViewModel(@NonNull Application application) {
         super(application);
-        GolfDatabase database = GolfDatabase.getInstance(getApplication());
+        database = GolfDatabase.getInstance(getApplication());
         records = database.golfDao().loadAllRecords();
     }
 
     public LiveData<List<GolfRecord>> getRecords() {
         return records;
+    }
+
+    public void insertRecord(final GolfRecord record) {
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                database.golfDao().insertGolfRecord(record);
+            }
+        });
     }
 }

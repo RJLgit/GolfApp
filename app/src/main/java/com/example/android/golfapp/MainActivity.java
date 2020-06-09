@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.FrameLayout;
 
 import com.example.android.golfapp.Data.GolfDatabase;
 import com.example.android.golfapp.Data.GolfRecord;
+import com.example.android.golfapp.Data.GolfViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Date;
@@ -61,12 +63,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         Log.d(TAG, "onRecordSent: " + "name: " + name + ". Course: " + course + ". Par: " + par
         + ". Score: " + score + ". Date: " + date);
         final GolfRecord golfRecord = new GolfRecord(name, course, par, score, date);
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                myGolfDatabase.golfDao().insertGolfRecord(golfRecord);
-            }
-        });
+        GolfViewModel viewModel = new ViewModelProvider(this).get(GolfViewModel.class);
+        viewModel.insertRecord(golfRecord);
     }
 
     @Override
