@@ -5,19 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.example.android.golfapp.Data.GolfRecord;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class GolfAdapter extends RecyclerView.Adapter<GolfAdapter.GolfViewHolder> {
 
-    private List<GolfRecord> mData = new ArrayList<>();
+    private List<GolfRecord> mData;
     private Context mContext;
 
     public GolfAdapter(Context context) {

@@ -4,6 +4,8 @@ package com.example.android.golfapp;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,6 +18,7 @@ import com.example.android.golfapp.Data.GolfRecord;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -42,7 +45,7 @@ public class ListFragment extends Fragment {
         myRecyclerView = v.findViewById(R.id.recyclerview);
         myRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        GolfAdapter adapter = new GolfAdapter(getContext());
+        final GolfAdapter adapter = new GolfAdapter(getContext());
         //Dummy data to test recyclerview
        /* ArrayList<GolfRecord> dummyData = new ArrayList<>();
         Date date = new Date();
@@ -50,11 +53,14 @@ public class ListFragment extends Fragment {
         GolfRecord g2 = new GolfRecord("Tom", "baroness", 71, 102, date);
         dummyData.add(g1);
         dummyData.add(g2);*/
-
-        adapter.setmData(mDb.golfDao().loadAllTasks());
-        myRecyclerView.setAdapter(adapter);
-
-
+        LiveData<List<GolfRecord>> records = mDb.golfDao().loadAllRecords();
+        records.observe(getActivity(), new Observer<List<GolfRecord>>() {
+            @Override
+            public void onChanged(List<GolfRecord> golfRecords) {
+                adapter.setmData(golfRecords);
+                myRecyclerView.setAdapter(adapter);
+            }
+        });
         return v;
     }
 
