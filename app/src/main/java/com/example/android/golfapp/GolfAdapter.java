@@ -36,8 +36,8 @@ public class GolfAdapter extends RecyclerView.Adapter<GolfAdapter.GolfViewHolder
         holder.nameTextView.setText(mData.get(position).getName());
         holder.courseTextView.setText(mData.get(position).getCourse());
         holder.dateTextView.setText(mData.get(position).getDate().toString());
-        holder.parTextView.setText(mData.get(position).getPar());
-        holder.scoreTextView.setText(mData.get(position).getScore());
+        holder.parTextView.setText(mData.get(position).getPar() + "");
+        holder.scoreTextView.setText(mData.get(position).getScore() + "");
     }
 
     @Override
