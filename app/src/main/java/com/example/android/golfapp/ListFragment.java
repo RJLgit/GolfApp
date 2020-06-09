@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,10 +16,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.android.golfapp.Data.AppExecutors;
 import com.example.android.golfapp.Data.GolfDatabase;
 import com.example.android.golfapp.Data.GolfRecord;
+import com.example.android.golfapp.Data.GolfViewModel;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -69,6 +73,7 @@ public class ListFragment extends Fragment {
             // Called when a user swipes left or right on a ViewHolder
             @Override
             public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
+
                 // Here is where you'll implement swipe to delete
                 AppExecutors.getInstance().diskIO().execute(new Runnable() {
                     @Override
@@ -81,11 +86,11 @@ public class ListFragment extends Fragment {
             }
         }).attachToRecyclerView(myRecyclerView);
 
-        LiveData<List<GolfRecord>> records = mDb.golfDao().loadAllRecords();
-        records.observe(getActivity(), new Observer<List<GolfRecord>>() {
+        GolfViewModel viewModel = new ViewModelProvider(getActivity()).get(GolfViewModel.class);
+        viewModel.getRecords().observe(getActivity(), new Observer<List<GolfRecord>>() {
             @Override
             public void onChanged(List<GolfRecord> golfRecords) {
-                Log.d(TAG, "onChanged: " + "updates from live data");
+                Log.d(TAG, "onChanged: " + "updates from view model");
                 adapter.setmData(golfRecords);
             }
         });
