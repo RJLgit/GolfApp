@@ -17,6 +17,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,8 +36,8 @@ public class EnterFragment extends Fragment {
     //UI elements
     AutoCompleteTextView nameEditText;
     AutoCompleteTextView courseEditText;
-    EditText parEditText;
-    EditText scoreEditText;
+    NumberPicker parNumberPicker;
+    NumberPicker scoreNumberPicker;
     EditText dateEditText;
     Button enterButton;
 
@@ -57,10 +58,19 @@ public class EnterFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_enter, container, false);
         enterButton = v.findViewById(R.id.enterButton);
         dateEditText = v.findViewById(R.id.date_edit_text);
-        scoreEditText = v.findViewById(R.id.score_edit_text);
-        parEditText = v.findViewById(R.id.par_edit_text);
+        scoreNumberPicker = v.findViewById(R.id.score_number_picker);
+        parNumberPicker = v.findViewById(R.id.par_number_picker);
         courseEditText = v.findViewById(R.id.course_edit_text);
         nameEditText = v.findViewById(R.id.name_edit_text);
+
+        parNumberPicker.setMinValue(27);
+        parNumberPicker.setMaxValue(80);
+        scoreNumberPicker.setMinValue(25);
+        scoreNumberPicker.setMaxValue(130);
+
+        scoreNumberPicker.setValue(90);
+        parNumberPicker.setValue(72);
+
         //Sets date to today by default. When user clicks it allow them to select date via a data picker alert
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         dateEditText.setText(dateFormat.format(new Date()));
@@ -122,8 +132,8 @@ public class EnterFragment extends Fragment {
                         Log.d(TAG, "onClick: failed due to name");
                         return;
                     }
-                    int par = Integer.parseInt(parEditText.getText().toString());
-                    int score = Integer.parseInt(scoreEditText.getText().toString());
+                    int par = parNumberPicker.getValue();
+                    int score = scoreNumberPicker.getValue();
                     SimpleDateFormat myDateFormat = new SimpleDateFormat("dd/MM/yyyy");
                     Date date = myDateFormat.parse(dateEditText.getText().toString());
                     if (listener != null) {
@@ -146,8 +156,8 @@ public class EnterFragment extends Fragment {
     private void clearAllFields() {
         nameEditText.getText().clear();
         courseEditText.getText().clear();
-        parEditText.getText().clear();
-        scoreEditText.getText().clear();
+        scoreNumberPicker.setValue(90);
+        parNumberPicker.setValue(72);
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         dateEditText.setText(dateFormat.format(new Date()));
     }

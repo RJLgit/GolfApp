@@ -65,14 +65,13 @@ android:layout_height="match_parent">
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/course_label" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <NumberPicker
+        android:layout_width="97dp"
+        android:layout_height="53dp"
         android:hint="Enter score"
-        android:id="@+id/score_edit_text"
+        android:id="@+id/score_number_picker"
         app:layout_constraintStart_toStartOf="@+id/name_edit_text"
         app:layout_constraintTop_toTopOf="@+id/score_label"
-        android:inputType="number"
         />
 
     <TextView
@@ -85,15 +84,13 @@ android:layout_height="match_parent">
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/score_label" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <NumberPicker
+        android:id="@+id/par_number_picker"
+        android:layout_width="97dp"
+        android:layout_height="53dp"
         android:hint="Enter par"
-        android:id="@+id/par_edit_text"
         app:layout_constraintStart_toStartOf="@+id/name_edit_text"
-        app:layout_constraintTop_toTopOf="@+id/par_label"
-        android:inputType="number"
-        />
+        app:layout_constraintTop_toTopOf="@+id/par_label" />
 
     <TextView
         android:id="@+id/date_label"
