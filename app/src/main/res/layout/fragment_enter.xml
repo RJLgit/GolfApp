@@ -31,7 +31,8 @@ android:layout_height="match_parent">
         app:layout_constraintStart_toEndOf="@+id/name_label"
         app:layout_constraintTop_toTopOf="@+id/name_label"
         android:maxLines="1"
-        android:minLines="1"/>
+        android:minLines="1"
+        android:theme="@style/DefaultNumberPickerTheme"/>
 
     <TextView
         android:id="@+id/course_label"
@@ -53,7 +54,8 @@ android:layout_height="match_parent">
         app:layout_constraintStart_toStartOf="@+id/name_edit_text"
         app:layout_constraintTop_toTopOf="@+id/course_label"
         android:maxLines="1"
-        android:minLines="1"/>
+        android:minLines="1"
+        android:theme="@style/DefaultNumberPickerTheme"/>
 
     <TextView
         android:id="@+id/score_label"
@@ -72,6 +74,7 @@ android:layout_height="match_parent">
         android:id="@+id/score_number_picker"
         app:layout_constraintStart_toStartOf="@+id/name_edit_text"
         app:layout_constraintTop_toTopOf="@+id/score_label"
+        android:theme="@style/DefaultNumberPickerTheme"
         />
 
     <TextView
@@ -90,7 +93,9 @@ android:layout_height="match_parent">
         android:layout_height="53dp"
         android:hint="Enter par"
         app:layout_constraintStart_toStartOf="@+id/name_edit_text"
-        app:layout_constraintTop_toTopOf="@+id/par_label" />
+        app:layout_constraintTop_toTopOf="@+id/par_label"
+        android:theme="@style/DefaultNumberPickerTheme"
+        />
 
     <TextView
         android:id="@+id/date_label"
@@ -111,6 +116,7 @@ android:layout_height="match_parent">
         android:id="@+id/date_edit_text"
         app:layout_constraintStart_toStartOf="@+id/name_edit_text"
         app:layout_constraintTop_toTopOf="@+id/date_label"
+        android:theme="@style/DefaultNumberPickerTheme"
         />
 
     <Button

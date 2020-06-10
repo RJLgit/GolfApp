@@ -63,6 +63,9 @@ public class EnterFragment extends Fragment {
         courseEditText = v.findViewById(R.id.course_edit_text);
         nameEditText = v.findViewById(R.id.name_edit_text);
 
+
+
+
         parNumberPicker.setMinValue(27);
         parNumberPicker.setMaxValue(80);
         scoreNumberPicker.setMinValue(25);
