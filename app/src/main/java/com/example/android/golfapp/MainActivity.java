@@ -7,10 +7,12 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.DatePickerDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.DatePicker;
 import android.widget.FrameLayout;
 
 import com.example.android.golfapp.Data.GolfDatabase;
@@ -18,12 +20,14 @@ import com.example.android.golfapp.Data.GolfRecord;
 import com.example.android.golfapp.Data.GolfViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, EnterFragment.EnterFragmentListener {
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, EnterFragment.EnterFragmentListener, DatePickerDialog.OnDateSetListener {
     private static final String TAG = "MainActivity";
     //UI elements
     FrameLayout container;
@@ -32,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     //Database variables
     private GolfDatabase myGolfDatabase;
     GolfViewModel viewModel;
+
+    EnterFragment myEnterFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         myGolfDatabase = GolfDatabase.getInstance(this);
 
-        final EnterFragment myEnterFragment = new EnterFragment();
+        myEnterFragment = new EnterFragment();
 
         viewModel = new ViewModelProvider(this).get(GolfViewModel.class);
         viewModel.getNames().observe(this, new Observer<List<String>>() {
@@ -79,6 +85,24 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 .replace(R.id.fragment_container, myEnterFragment).commit();
 
     }
+
+    @Override
+    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+        Log.d(TAG, "onDateSet: ");
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, month);
+        c.set(Calendar.DAY_OF_MONTH, day);
+        Log.d(TAG, "onDateSet: " + c);
+        Date d = c.getTime();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        if (myEnterFragment != null) {
+            myEnterFragment.dateSet(dateFormat.format(d));
+        }
+
+    }
+
     //Inserts the record in the database
     @Override
     public void onRecordSent(String name, String course, int par, int score, Date date) {

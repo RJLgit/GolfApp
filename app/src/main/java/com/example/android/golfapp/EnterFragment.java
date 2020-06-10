@@ -1,9 +1,11 @@
 package com.example.android.golfapp;
 
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -13,11 +15,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -59,6 +64,16 @@ public class EnterFragment extends Fragment {
         //Sets date to today by default. When user clicks it allow them to select date via a data picker alert
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         dateEditText.setText(dateFormat.format(new Date()));
+
+        dateEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onClick: date");
+                DialogFragment datePicker = new DatePickerFragment();
+                datePicker.show(getActivity().getSupportFragmentManager(), "date picker");
+            }
+        });
+
         //Sets adapters to AutoCompleteTextViews
         ArrayAdapter<String> namesAdapter = new ArrayAdapter<String>(getContext(),
                 android.R.layout.simple_dropdown_item_1line, names);
@@ -139,6 +154,8 @@ public class EnterFragment extends Fragment {
         return names;
     }
 
+
+
     //When names is set them it sets adapter to the edit text
     public void setNames(String[] names) {
         this.names = names;
@@ -180,6 +197,10 @@ public class EnterFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         listener = null;
+    }
+
+    public void dateSet(String format) {
+        dateEditText.setText(format);
     }
 
     public interface EnterFragmentListener {
