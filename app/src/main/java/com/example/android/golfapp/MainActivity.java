@@ -11,6 +11,8 @@ import android.app.DatePickerDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.DatePicker;
 import android.widget.FrameLayout;
@@ -39,6 +41,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     EnterFragment myEnterFragment;
 
+    private Menu myMenu;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +63,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         myGolfDatabase = GolfDatabase.getInstance(this);
 
         myEnterFragment = new EnterFragment();
+
+
+
 
         viewModel = new ViewModelProvider(this).get(GolfViewModel.class);
         viewModel.getNames().observe(this, new Observer<List<String>>() {
@@ -159,5 +167,25 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 break;
         }
         return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        myMenu = menu;
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.settings_menu, menu);
+        myMenu.setGroupVisible(R.id.settingsItemsToHide, false);
+        return true;
+    }
+
+    public void hideMenus() {
+        if (myMenu != null) {
+            myMenu.setGroupVisible(R.id.settingsItemsToHide, false);
+        }
+    }
+    public void showMenus() {
+        if (myMenu != null) {
+            myMenu.setGroupVisible(R.id.settingsItemsToHide, true);
+        }
     }
 }

@@ -46,6 +46,7 @@ public class EnterFragment extends Fragment {
     private String[] courses = new String[] {};
 
     private EnterFragmentListener listener;
+    MainActivity theActivity;
     public EnterFragment() {
         // Required empty public constructor
     }
@@ -201,6 +202,13 @@ public class EnterFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        if (context instanceof MainActivity) {
+            MainActivity activity = (MainActivity) context;
+            activity.hideMenus();
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement EnterFragmentListener");
+        }
         if (context instanceof EnterFragmentListener) {
             listener = (EnterFragmentListener) context;
         } else {

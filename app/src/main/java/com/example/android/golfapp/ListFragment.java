@@ -1,9 +1,11 @@
 package com.example.android.golfapp;
 
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -38,6 +40,8 @@ public class ListFragment extends Fragment {
     RecyclerView myRecyclerView;
     GolfDatabase mDb;
     GolfRecord deletedItem = null;
+
+    MainActivity theActivity;
 
     public ListFragment() {
         // Required empty public constructor
@@ -115,6 +119,18 @@ public class ListFragment extends Fragment {
 
 
         return v;
+    }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof MainActivity) {
+            MainActivity activity = (MainActivity) context;
+            activity.showMenus();
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement EnterFragmentListener");
+        }
+
     }
 
 }
