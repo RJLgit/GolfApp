@@ -65,12 +65,14 @@ public class EnterFragment extends Fragment {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         dateEditText.setText(dateFormat.format(new Date()));
 
-        dateEditText.setOnClickListener(new View.OnClickListener() {
+        dateEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View view) {
-                Log.d(TAG, "onClick: date");
-                DialogFragment datePicker = new DatePickerFragment();
-                datePicker.show(getActivity().getSupportFragmentManager(), "date picker");
+            public void onFocusChange(View view, boolean b) {
+                if (b) {
+                    Log.d(TAG, "onClick: date");
+                    DialogFragment datePicker = new DatePickerFragment();
+                    datePicker.show(getActivity().getSupportFragmentManager(), "date picker");
+                }
             }
         });
 
