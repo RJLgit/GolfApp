@@ -12,4 +12,10 @@
     <string name="toolbar_list_subtitle">See your results</string>
     <string name="toolbar_stats_subtitle">Check your stats</string>
 
+    <string-array name="time_filter_array">
+        <item>Last 3 months</item>
+        <item>Last 6 months</item>
+        <item>All rounds</item>
+    </string-array>
+
 </resources>

@@ -6,4 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".SettingsActivity">
 
+    <include layout="@layout/toolbar"
+        android:id="@+id/toolbar"/>
+
+    <fragment
+        android:id="@+id/activity_settings"
+        android:name="com.example.android.golfapp.SettingsFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
