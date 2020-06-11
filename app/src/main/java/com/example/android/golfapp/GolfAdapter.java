@@ -69,6 +69,7 @@ public class GolfAdapter extends RecyclerView.Adapter<GolfAdapter.GolfViewHolder
     public void filterData(String s, Set<String> x, String sort) {
 
         if (s.equals("All rounds")) {
+
             ArrayList<GolfRecord> filtered = new ArrayList<>();
             for (GolfRecord g : mUnFilteredData) {
                     filtered.add(g);
@@ -76,7 +77,7 @@ public class GolfAdapter extends RecyclerView.Adapter<GolfAdapter.GolfViewHolder
             ArrayList<GolfRecord> secondFiltered = new ArrayList<>();
             for (GolfRecord g2 : filtered) {
                 String name = g2.getName();
-                if (x.contains(name)) {
+                if (x != null && x.contains(name)) {
                     secondFiltered.add(g2);
                 }
             }
@@ -101,7 +102,7 @@ public class GolfAdapter extends RecyclerView.Adapter<GolfAdapter.GolfViewHolder
             ArrayList<GolfRecord> secondFiltered = new ArrayList<>();
             for (GolfRecord g2 : filtered) {
                 String name = g2.getName();
-                if (x.contains(name)) {
+                if (x != null && x.contains(name)) {
                     secondFiltered.add(g2);
                 }
             }
@@ -125,7 +126,7 @@ public class GolfAdapter extends RecyclerView.Adapter<GolfAdapter.GolfViewHolder
             ArrayList<GolfRecord> secondFiltered = new ArrayList<>();
             for (GolfRecord g2 : filtered) {
                 String name = g2.getName();
-                if (x.contains(name)) {
+                if (x != null && x.contains(name)) {
                     secondFiltered.add(g2);
                 }
             }
