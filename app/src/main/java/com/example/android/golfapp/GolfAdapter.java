@@ -73,7 +73,7 @@ public class GolfAdapter extends RecyclerView.Adapter<GolfAdapter.GolfViewHolder
             Date currentDate = new Date();
             LocalDate currentLocalDate = currentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             Log.d(TAG, "filterDates: " + currentLocalDate);
-            for (GolfRecord g : mFilteredData) {
+            for (GolfRecord g : mUnFilteredData) {
                 Date recordDate = g.getDate();
                 LocalDate currentRecordDate = recordDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                 Log.d(TAG, "filterDates: " + currentRecordDate);
@@ -84,14 +84,14 @@ public class GolfAdapter extends RecyclerView.Adapter<GolfAdapter.GolfViewHolder
                 }
             }
             Log.d(TAG, "filterData: " + filtered);
-            Log.d(TAG, "filterDates: " + mFilteredData);
+            Log.d(TAG, "filterDates: " + mUnFilteredData);
             updateFilteredData(filtered);
         } else if (s.equals("Last 3 months")) {
             Log.d(TAG, "filterData: 3");
             ArrayList<GolfRecord> filtered = new ArrayList<>();
             Date currentDate = new Date();
             LocalDate currentLocalDate = currentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            for (GolfRecord g : mFilteredData) {
+            for (GolfRecord g : mUnFilteredData) {
                 Date recordDate = g.getDate();
                 LocalDate currentRecordDate = recordDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                 Period period = Period.between(currentLocalDate, currentRecordDate);

@@ -37,7 +37,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ListFragment extends Fragment {
+public class ListFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "ListFragment";
     RecyclerView myRecyclerView;
     GolfDatabase mDb;
@@ -45,6 +45,7 @@ public class ListFragment extends Fragment {
 
     MainActivity theActivity;
     GolfAdapter adapter;
+    SharedPreferences sharedPreferences;
 
     public ListFragment() {
         // Required empty public constructor
@@ -60,8 +61,8 @@ public class ListFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_list, container, false);
 
-        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
         myRecyclerView = v.findViewById(R.id.recyclerview);
         myRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -140,7 +141,20 @@ public class ListFragment extends Fragment {
         }
     }
 
-  /*  private void filterDates(String x) {
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals("time_filter_preference")) {
+            adapter.filterDates(sharedPreferences.getString("time_filter_preference", "All rounds"));
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    /*  private void filterDates(String x) {
             adapter.filterDates(x);
     }*/
 
