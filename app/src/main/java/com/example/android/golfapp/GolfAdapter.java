@@ -14,6 +14,8 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -63,10 +65,21 @@ public class GolfAdapter extends RecyclerView.Adapter<GolfAdapter.GolfViewHolder
 
 
 
-    public void filterDates(String s) {
+    public void filterData(String s, Set<String> x) {
 
         if (s.equals("All rounds")) {
-                updateFilteredData(mUnFilteredData);
+            ArrayList<GolfRecord> filtered = new ArrayList<>();
+            for (GolfRecord g : mUnFilteredData) {
+                    filtered.add(g);
+            }
+            ArrayList<GolfRecord> secondFiltered = new ArrayList<>();
+            for (GolfRecord g2 : filtered) {
+                String name = g2.getName();
+                if (x.contains(name)) {
+                    secondFiltered.add(g2);
+                }
+            }
+            updateFilteredData(secondFiltered);
         } else if (s.equals("Last 6 months")) {
             Log.d(TAG, "filterData: 6");
             ArrayList<GolfRecord> filtered = new ArrayList<>();
@@ -83,9 +96,16 @@ public class GolfAdapter extends RecyclerView.Adapter<GolfAdapter.GolfViewHolder
                     filtered.add(g);
                 }
             }
+            ArrayList<GolfRecord> secondFiltered = new ArrayList<>();
+            for (GolfRecord g2 : filtered) {
+                String name = g2.getName();
+                if (x.contains(name)) {
+                    secondFiltered.add(g2);
+                }
+            }
+            updateFilteredData(secondFiltered);
             Log.d(TAG, "filterData: " + filtered);
             Log.d(TAG, "filterDates: " + mUnFilteredData);
-            updateFilteredData(filtered);
         } else if (s.equals("Last 3 months")) {
             Log.d(TAG, "filterData: 3");
             ArrayList<GolfRecord> filtered = new ArrayList<>();
@@ -99,17 +119,36 @@ public class GolfAdapter extends RecyclerView.Adapter<GolfAdapter.GolfViewHolder
                     filtered.add(g);
                 }
             }
+            ArrayList<GolfRecord> secondFiltered = new ArrayList<>();
+            for (GolfRecord g2 : filtered) {
+                String name = g2.getName();
+                if (x.contains(name)) {
+                    secondFiltered.add(g2);
+                }
+            }
+            updateFilteredData(secondFiltered);
             Log.d(TAG, "filterData: " + filtered);
-            updateFilteredData(filtered);
+
         }
 
     }
 
-
+/*    public void filterPlayers(Set<String> x) {
+        ArrayList<GolfRecord> filtered = new ArrayList<>();
+        for (GolfRecord g : mFilteredData) {
+            String name = g.getName();
+            if (x.contains(name)) {
+                filtered.add(g);
+            }
+        }
+        updateFilteredData(filtered);
+    }*/
 
     public List<GolfRecord> getmData() {
         return mFilteredData;
     }
+
+
 
     class GolfViewHolder extends RecyclerView.ViewHolder {
         TextView dateTextView;
