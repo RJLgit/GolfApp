@@ -3,9 +3,12 @@ package com.example.android.golfapp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NavUtils;
+import androidx.preference.MultiSelectListPreference;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+
+import java.util.ArrayList;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -15,6 +18,10 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        String[] theNames = getIntent().getStringArrayExtra("Names");
+
+        SettingsFragment settingsFragment = new SettingsFragment(theNames);
+
         toolbar = findViewById(R.id.toolbar);
 
 
@@ -22,6 +29,9 @@ public class SettingsActivity extends AppCompatActivity {
         toolbar.setLogo(R.drawable.ic_app_icon);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setSubtitle("Change which data to see");
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.activity_settings_container, settingsFragment).commit();
     }
 
     @Override

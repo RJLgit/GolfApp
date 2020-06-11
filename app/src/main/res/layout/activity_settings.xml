@@ -9,9 +9,9 @@
     <include layout="@layout/toolbar"
         android:id="@+id/toolbar"/>
 
-    <fragment
-        android:id="@+id/activity_settings"
-        android:name="com.example.android.golfapp.SettingsFragment"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/activity_settings_container"
+
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="60dp"

@@ -23,7 +23,9 @@ import com.example.android.golfapp.Data.GolfRecord;
 import com.example.android.golfapp.Data.GolfViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
@@ -39,16 +41,23 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     //Database variables
     private GolfDatabase myGolfDatabase;
     GolfViewModel viewModel;
+    String[] myGolfNames;
 
     EnterFragment myEnterFragment;
 
     private Menu myMenu;
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        viewModel = new ViewModelProvider(this).get(GolfViewModel.class);
+
+
+
 
         container = findViewById(R.id.fragment_container);
         bottomNavigationView = findViewById(R.id.bott_nav_bar);
@@ -68,13 +77,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 
 
-        viewModel = new ViewModelProvider(this).get(GolfViewModel.class);
+
         viewModel.getNames().observe(this, new Observer<List<String>>() {
             @Override
             public void onChanged(List<String> golfNames) {
                 Log.d(TAG, "onChanged: " + "set names adapter");
                 Set<String> removeDuplicatesSet = new HashSet<>(golfNames);
                 String[] arr = removeDuplicatesSet.toArray(new String[removeDuplicatesSet.size()]);
+                myGolfNames = arr;
                 myEnterFragment.setNames(arr);
             }
         });
@@ -183,7 +193,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.sortAndFilterSettings) {
+            //Pass name data here
+
             Intent intent = new Intent(this, SettingsActivity.class);
+
+            intent.putExtra("Names", myGolfNames);
             startActivity(intent);
             return true;
         }
