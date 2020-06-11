@@ -19,6 +19,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         multiSelectListPreference.setEntries(myNames);
         multiSelectListPreference.setEntryValues(myNames);
         multiSelectListPreference.setDefaultValue(myNames);
-       
+
     }
 }

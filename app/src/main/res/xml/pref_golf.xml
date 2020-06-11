@@ -13,7 +13,6 @@
         <MultiSelectListPreference
             android:key="player_filter_preference"
             android:title="Select players"
-            app:defaultValue="@array/player_filter_array"
             android:entries="@array/player_filter_array"
             android:entryValues="@array/player_filter_array"
              />

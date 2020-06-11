@@ -2,6 +2,7 @@ package com.example.android.golfapp;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -11,6 +12,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,6 +44,7 @@ public class ListFragment extends Fragment {
     GolfRecord deletedItem = null;
 
     MainActivity theActivity;
+    GolfAdapter adapter;
 
     public ListFragment() {
         // Required empty public constructor
@@ -57,10 +60,12 @@ public class ListFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_list, container, false);
 
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+
         myRecyclerView = v.findViewById(R.id.recyclerview);
         myRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        final GolfAdapter adapter = new GolfAdapter(getContext());
+        adapter = new GolfAdapter(getContext());
         //Dummy data to test recyclerview
        /* ArrayList<GolfRecord> dummyData = new ArrayList<>();
         Date date = new Date();
@@ -114,8 +119,11 @@ public class ListFragment extends Fragment {
             public void onChanged(List<GolfRecord> golfRecords) {
                 Log.d(TAG, "onChanged: " + "updates from view model");
                 adapter.setmData(golfRecords);
+                adapter.filterDates(sharedPreferences.getString("time_filter_preference", "All rounds"));
             }
         });
+
+
 
 
         return v;
@@ -130,7 +138,10 @@ public class ListFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement EnterFragmentListener");
         }
-
     }
+
+  /*  private void filterDates(String x) {
+            adapter.filterDates(x);
+    }*/
 
 }
