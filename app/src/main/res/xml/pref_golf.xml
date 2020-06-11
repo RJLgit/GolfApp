@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <ListPreference
         android:key="time_filter_preference"
         android:title="Date range"
@@ -9,5 +10,11 @@
         android:defaultValue="All rounds"
         />
 
-
+        <MultiSelectListPreference
+            android:key="player_filter_preference"
+            android:title="Select players"
+            app:defaultValue="@array/player_filter_array"
+            android:entries="@array/player_filter_array"
+            android:entryValues="@array/player_filter_array"
+            android:defaultValue="Bob" />
 </PreferenceScreen>
