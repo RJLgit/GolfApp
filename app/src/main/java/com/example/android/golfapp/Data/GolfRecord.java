@@ -107,7 +107,7 @@ public class GolfRecord {
     public static class DateComparator implements Comparator<GolfRecord> {
         @Override
         public int compare(GolfRecord golfRecord, GolfRecord t1) {
-            return golfRecord.getDate().compareTo(t1.getDate());
+            return t1.getDate().compareTo(golfRecord.getDate());
         }
     }
 }

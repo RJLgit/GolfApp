@@ -121,7 +121,7 @@ public class ListFragment extends Fragment implements SharedPreferences.OnShared
                 Log.d(TAG, "onChanged: " + "updates from view model");
                 adapter.setmData(golfRecords);
                 adapter.filterData(sharedPreferences.getString("time_filter_preference", "All rounds"), sharedPreferences.getStringSet("player_filter_preference", null),
-                        sharedPreferences.getString("sort_preference", "Date"));
+                        sharedPreferences.getString("sort_preference", "Most recent"));
             }
         });
 
@@ -146,15 +146,15 @@ public class ListFragment extends Fragment implements SharedPreferences.OnShared
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals("time_filter_preference")) {
             adapter.filterData(sharedPreferences.getString("time_filter_preference", "All rounds"), sharedPreferences.getStringSet("player_filter_preference", null)
-                    , sharedPreferences.getString("sort_preference", "Date"));
+                    , sharedPreferences.getString("sort_preference", "Most recent"));
         }
         if (key.equals("player_filter_preference")) {
             adapter.filterData(sharedPreferences.getString("time_filter_preference", "All rounds"), sharedPreferences.getStringSet("player_filter_preference", null)
-                    , sharedPreferences.getString("sort_preference", "Date"));
+                    , sharedPreferences.getString("sort_preference", "Most recent"));
         }
         if (key.equals("sort_preference")) {
             adapter.filterData(sharedPreferences.getString("time_filter_preference", "All rounds"), sharedPreferences.getStringSet("player_filter_preference", null)
-                    , sharedPreferences.getString("sort_preference", "Date"));
+                    , sharedPreferences.getString("sort_preference", "Most recent"));
         }
     }
 

@@ -136,7 +136,7 @@ public class GolfAdapter extends RecyclerView.Adapter<GolfAdapter.GolfViewHolder
     }
 
     public void sortData(String s, ArrayList<GolfRecord> arrayList) {
-        if (s.equals("Date")) {
+        if (s.equals("Most recent")) {
             Collections.sort(arrayList, new GolfRecord.DateComparator());
         } if (s.equals("Player - alphabetical")) {
             Collections.sort(arrayList, new GolfRecord.NameComparator());

@@ -25,7 +25,7 @@
     </string-array>
 
     <string-array name="sort_array">
-        <item>Date</item>
+        <item>Most recent</item>
         <item>Player - alphabetical</item>
         <item>Score</item>
     </string-array>
