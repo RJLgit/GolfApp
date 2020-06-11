@@ -17,4 +17,14 @@
             android:entries="@array/player_filter_array"
             android:entryValues="@array/player_filter_array"
             android:defaultValue="Bob" />
+
+    <ListPreference
+        android:key="sort_preference"
+        android:title="Sort by"
+        android:entries="@array/sort_array"
+        android:entryValues="@array/sort_array"
+        android:summary="%s"
+        android:defaultValue="Date"
+        />
+
 </PreferenceScreen>
