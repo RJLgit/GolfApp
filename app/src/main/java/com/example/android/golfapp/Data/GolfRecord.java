@@ -1,5 +1,6 @@
 package com.example.android.golfapp.Data;
 
+import java.util.Comparator;
 import java.util.Date;
 
 import androidx.room.Entity;
@@ -81,5 +82,32 @@ public class GolfRecord {
 
     public void setDate(java.util.Date date) {
         this.date = date;
+    }
+
+    public static class NameComparator implements Comparator<GolfRecord> {
+        @Override
+        public int compare(GolfRecord golfRecord, GolfRecord t1) {
+            return golfRecord.getName().compareTo(t1.getName());
+        }
+    }
+
+    public static class ScoreComparator implements Comparator<GolfRecord> {
+        @Override
+        public int compare(GolfRecord golfRecord, GolfRecord t1) {
+            if (t1.getScore() == golfRecord.getScore()) {
+                return 0;
+            } else if (golfRecord.getScore() > t1.getScore()) {
+                return 1;
+            } else {
+                return -1;
+            }
+        }
+    }
+
+    public static class DateComparator implements Comparator<GolfRecord> {
+        @Override
+        public int compare(GolfRecord golfRecord, GolfRecord t1) {
+            return golfRecord.getDate().compareTo(t1.getDate());
+        }
     }
 }

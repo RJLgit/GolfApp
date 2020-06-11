@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -65,7 +66,7 @@ public class GolfAdapter extends RecyclerView.Adapter<GolfAdapter.GolfViewHolder
 
 
 
-    public void filterData(String s, Set<String> x) {
+    public void filterData(String s, Set<String> x, String sort) {
 
         if (s.equals("All rounds")) {
             ArrayList<GolfRecord> filtered = new ArrayList<>();
@@ -79,6 +80,7 @@ public class GolfAdapter extends RecyclerView.Adapter<GolfAdapter.GolfViewHolder
                     secondFiltered.add(g2);
                 }
             }
+            sortData(sort, secondFiltered);
             updateFilteredData(secondFiltered);
         } else if (s.equals("Last 6 months")) {
             Log.d(TAG, "filterData: 6");
@@ -103,6 +105,7 @@ public class GolfAdapter extends RecyclerView.Adapter<GolfAdapter.GolfViewHolder
                     secondFiltered.add(g2);
                 }
             }
+            sortData(sort, secondFiltered);
             updateFilteredData(secondFiltered);
             Log.d(TAG, "filterData: " + filtered);
             Log.d(TAG, "filterDates: " + mUnFilteredData);
@@ -126,11 +129,20 @@ public class GolfAdapter extends RecyclerView.Adapter<GolfAdapter.GolfViewHolder
                     secondFiltered.add(g2);
                 }
             }
+            sortData(sort, secondFiltered);
             updateFilteredData(secondFiltered);
             Log.d(TAG, "filterData: " + filtered);
-
         }
+    }
 
+    public void sortData(String s, ArrayList<GolfRecord> arrayList) {
+        if (s.equals("Date")) {
+            Collections.sort(arrayList, new GolfRecord.DateComparator());
+        } if (s.equals("Player - alphabetical")) {
+            Collections.sort(arrayList, new GolfRecord.NameComparator());
+        } if (s.equals("Score")) {
+            Collections.sort(arrayList, new GolfRecord.ScoreComparator());
+        }
     }
 
 /*    public void filterPlayers(Set<String> x) {

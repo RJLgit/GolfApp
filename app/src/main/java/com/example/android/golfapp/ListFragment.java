@@ -120,7 +120,8 @@ public class ListFragment extends Fragment implements SharedPreferences.OnShared
             public void onChanged(List<GolfRecord> golfRecords) {
                 Log.d(TAG, "onChanged: " + "updates from view model");
                 adapter.setmData(golfRecords);
-                adapter.filterData(sharedPreferences.getString("time_filter_preference", "All rounds"), sharedPreferences.getStringSet("player_filter_preference", null));
+                adapter.filterData(sharedPreferences.getString("time_filter_preference", "All rounds"), sharedPreferences.getStringSet("player_filter_preference", null),
+                        sharedPreferences.getString("sort_preference", "Date"));
             }
         });
 
@@ -144,10 +145,16 @@ public class ListFragment extends Fragment implements SharedPreferences.OnShared
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals("time_filter_preference")) {
-            adapter.filterData(sharedPreferences.getString("time_filter_preference", "All rounds"), sharedPreferences.getStringSet("player_filter_preference", null));
+            adapter.filterData(sharedPreferences.getString("time_filter_preference", "All rounds"), sharedPreferences.getStringSet("player_filter_preference", null)
+                    , sharedPreferences.getString("sort_preference", "Date"));
         }
         if (key.equals("player_filter_preference")) {
-            adapter.filterData(sharedPreferences.getString("time_filter_preference", "All rounds"), sharedPreferences.getStringSet("player_filter_preference", null));
+            adapter.filterData(sharedPreferences.getString("time_filter_preference", "All rounds"), sharedPreferences.getStringSet("player_filter_preference", null)
+                    , sharedPreferences.getString("sort_preference", "Date"));
+        }
+        if (key.equals("sort_preference")) {
+            adapter.filterData(sharedPreferences.getString("time_filter_preference", "All rounds"), sharedPreferences.getStringSet("player_filter_preference", null)
+                    , sharedPreferences.getString("sort_preference", "Date"));
         }
     }
 
