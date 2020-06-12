@@ -20,6 +20,9 @@ import android.widget.TextView;
 import com.example.android.golfapp.Data.GolfDatabase;
 import com.example.android.golfapp.Data.GolfRecord;
 import com.example.android.golfapp.Data.GolfViewModel;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.List;
 
@@ -32,8 +35,9 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     GolfDatabase mDb;
 
     Spinner spinner;
-    TextView textView;
-
+    TextView nameTextView;
+    TextView recentRoundsTextView;
+    GraphView graph;
 
 
     public StatsFragment() {
@@ -51,8 +55,9 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         View v = inflater.inflate(R.layout.fragment_stats, container, false);
         spinner = v.findViewById(R.id.stats_spinner);
         spinner.setOnItemSelectedListener(this);
-        textView = v.findViewById(R.id.stats_player_textview);
-
+        nameTextView = v.findViewById(R.id.stats_player_textview);
+        recentRoundsTextView = v.findViewById(R.id.recent_rounds_textView);
+        graph = v.findViewById(R.id.graph);
 
         GolfViewModel viewModel = new ViewModelProvider(getActivity()).get(GolfViewModel.class);
         viewModel.getNames().observe(getActivity(), new Observer<List<String>>() {
@@ -77,7 +82,16 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
         String x = (String) adapterView.getItemAtPosition(pos);
-        textView.setText(x);
+        nameTextView.setText(x);
+
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
+                new DataPoint(0, 1),
+                new DataPoint(1, 5),
+                new DataPoint(2, 3),
+                new DataPoint(3, 2),
+                new DataPoint(4, 6)
+        });
+        graph.addSeries(series);
         //Put code here to populate the UI from the database
     }
 
