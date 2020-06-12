@@ -51,7 +51,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         View v = inflater.inflate(R.layout.fragment_stats, container, false);
         spinner = v.findViewById(R.id.stats_spinner);
         spinner.setOnItemSelectedListener(this);
-        textView = v.findViewById(R.id.stats_textview);
+        textView = v.findViewById(R.id.stats_player_textview);
 
 
         GolfViewModel viewModel = new ViewModelProvider(getActivity()).get(GolfViewModel.class);
@@ -78,6 +78,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
         String x = (String) adapterView.getItemAtPosition(pos);
         textView.setText(x);
+        //Put code here to populate the UI from the database
     }
 
     @Override
