@@ -5,7 +5,10 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,17 +18,23 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.android.golfapp.Data.GolfDatabase;
+import com.example.android.golfapp.Data.GolfRecord;
+import com.example.android.golfapp.Data.GolfViewModel;
+
+import java.util.List;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class StatsFragment extends Fragment implements AdapterView.OnItemSelectedListener {
-
+    private static final String TAG = "StatsFragment";
     GolfDatabase mDb;
 
     Spinner spinner;
     TextView textView;
+
+
 
     public StatsFragment() {
         // Required empty public constructor
@@ -44,11 +53,21 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         spinner.setOnItemSelectedListener(this);
         textView = v.findViewById(R.id.stats_textview);
 
-        String names[] = {"Bob","Tom","Jeff"};
 
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, names);
-        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
-        spinner.setAdapter(spinnerArrayAdapter);
+        GolfViewModel viewModel = new ViewModelProvider(getActivity()).get(GolfViewModel.class);
+        viewModel.getNames().observe(getActivity(), new Observer<List<String>>() {
+            @Override
+            public void onChanged(List<String> golfNames) {
+                Log.d(TAG, "onChanged: " + "updates from view model");
+                if (getContext() != null) {
+                    String[] newNames = new String[golfNames.size()];
+                    golfNames.toArray(newNames);
+                    ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, newNames);
+                    spinner.setAdapter(spinnerArrayAdapter);
+                }
+
+            }
+        });
 
 
 
