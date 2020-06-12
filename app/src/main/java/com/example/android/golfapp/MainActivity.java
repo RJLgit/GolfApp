@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     String[] myGolfNames;
 
     EnterFragment myEnterFragment;
+    ListFragment myListFragment;
+    StatsFragment myStatsFragment;
 
     private Menu myMenu;
 
@@ -73,6 +75,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         myGolfDatabase = GolfDatabase.getInstance(this);
 
         myEnterFragment = new EnterFragment();
+        myListFragment = new ListFragment();
+        myStatsFragment = new StatsFragment(this);
 
 
 
@@ -86,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 String[] arr = removeDuplicatesSet.toArray(new String[removeDuplicatesSet.size()]);
                 myGolfNames = arr;
                 myEnterFragment.setNames(arr);
+                myStatsFragment.setNames(arr);
             }
         });
         viewModel.getCourses().observe(this, new Observer<List<String>>() {
@@ -95,6 +100,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 Set<String> removeDuplicatesSet = new HashSet<>(golfCourses);
                 String[] arr = removeDuplicatesSet.toArray(new String[removeDuplicatesSet.size()]);
                 myEnterFragment.setCourses(arr);
+            }
+        });
+        viewModel.getRecords().observe(this, new Observer<List<GolfRecord>>() {
+            @Override
+            public void onChanged(List<GolfRecord> golfRecords) {
+                Log.d(TAG, "onChanged: " + "set courses adapter");
+                ArrayList<GolfRecord> myRecords = new ArrayList<>(golfRecords);
+                myStatsFragment.setRecords(myRecords);
             }
         });
         //Will need to replace this with data obtained from the database
@@ -167,10 +180,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                         .replace(R.id.fragment_container, listFragment).commit();
                 break;
             case R.id.nav_stats:
-                StatsFragment statsFragment = new StatsFragment();
                 toolbar.setSubtitle(getString(R.string.toolbar_stats_subtitle));
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, statsFragment).commit();
+                        .replace(R.id.fragment_container, myStatsFragment).commit();
                 break;
             default:
                 getSupportFragmentManager().beginTransaction()

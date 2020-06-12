@@ -41,15 +41,18 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     TextView nameTextView;
     TextView recentRoundsTextView;
     GraphView graph;
-    ArrayList<GolfRecord> playerResults = new ArrayList<>();
+    ArrayList<GolfRecord> allRecords = new ArrayList<>();
+    Context mContext;
+    String[] myNames;
+
 
 
     public StatsFragment() {
         // Required empty public constructor
     }
 
-    public StatsFragment(GolfDatabase mDb) {
-        this.mDb = mDb;
+    public StatsFragment(Context context) {
+        mContext = context;
     }
 
     @Override
@@ -63,22 +66,8 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         recentRoundsTextView = v.findViewById(R.id.recent_rounds_textView);
         graph = v.findViewById(R.id.graph);
 
-        GolfViewModel viewModel = new ViewModelProvider(getActivity()).get(GolfViewModel.class);
-        viewModel.getNames().observe(getActivity(), new Observer<List<String>>() {
-            @Override
-            public void onChanged(List<String> golfNames) {
-                Log.d(TAG, "onChanged: " + "updates from view model");
-                if (getContext() != null) {
-                    Set<String> removeDuplicatesSet = new HashSet<>(golfNames);
-                    String[] arr = removeDuplicatesSet.toArray(new String[removeDuplicatesSet.size()]);
-                    Log.d(TAG, "onChanged: " + arr);
-                    ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, arr);
-                    spinner.setAdapter(spinnerArrayAdapter);
-                }
-
-            }
-        });
-
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, myNames);
+        spinner.setAdapter(spinnerArrayAdapter);
 
 
         return v;
@@ -88,17 +77,15 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
         String x = (String) adapterView.getItemAtPosition(pos);
         nameTextView.setText(x);
+        graph.removeAllSeries();
 
-        GolfViewModel viewModel = new ViewModelProvider(getActivity()).get(GolfViewModel.class);
-        viewModel.getSpecificName(x).observe(getActivity(), new Observer<List<GolfRecord>>() {
-            @Override
-            public void onChanged(List<GolfRecord> golfRecords) {
-                Log.d(TAG, "onChanged: " + "updates from view model");
-                if (getContext() != null) {
-                    playerResults = new ArrayList<>(golfRecords);
-                }
+        ArrayList<GolfRecord> playerResults = new ArrayList<>();
+
+        for (GolfRecord g : allRecords) {
+            if (g.getName().equals(x)) {
+                playerResults.add(g);
             }
-        });
+        }
 
 
         DataPoint[] myDataPoints = new DataPoint[playerResults.size()];
@@ -114,16 +101,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
 
         LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(myDataPoints);
 
-        LineGraphSeries<DataPoint> series2 = new LineGraphSeries<DataPoint>(new DataPoint[] {
-                new DataPoint(1,4),
-                new DataPoint(3,3),
-                new DataPoint(5,6),
-                new DataPoint(8,9)
-
-        });
-
-
-        graph.addSeries(series2);
+        graph.addSeries(series);
         //Put code here to populate the UI from the database
     }
 
@@ -145,4 +123,11 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
 
     }
 
+    public void setRecords(ArrayList<GolfRecord> myRecords) {
+        allRecords = myRecords;
+    }
+
+    public void setNames(String[] arr) {
+            myNames = arr;
+    }
 }
