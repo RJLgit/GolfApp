@@ -24,7 +24,10 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -38,6 +41,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     TextView nameTextView;
     TextView recentRoundsTextView;
     GraphView graph;
+    ArrayList<GolfRecord> playerResults = new ArrayList<>();
 
 
     public StatsFragment() {
@@ -65,9 +69,10 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
             public void onChanged(List<String> golfNames) {
                 Log.d(TAG, "onChanged: " + "updates from view model");
                 if (getContext() != null) {
-                    String[] newNames = new String[golfNames.size()];
-                    golfNames.toArray(newNames);
-                    ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, newNames);
+                    Set<String> removeDuplicatesSet = new HashSet<>(golfNames);
+                    String[] arr = removeDuplicatesSet.toArray(new String[removeDuplicatesSet.size()]);
+                    Log.d(TAG, "onChanged: " + arr);
+                    ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, arr);
                     spinner.setAdapter(spinnerArrayAdapter);
                 }
 
@@ -84,14 +89,41 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         String x = (String) adapterView.getItemAtPosition(pos);
         nameTextView.setText(x);
 
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
-                new DataPoint(0, 1),
-                new DataPoint(1, 5),
-                new DataPoint(2, 3),
-                new DataPoint(3, 2),
-                new DataPoint(4, 6)
+        GolfViewModel viewModel = new ViewModelProvider(getActivity()).get(GolfViewModel.class);
+        viewModel.getSpecificName(x).observe(getActivity(), new Observer<List<GolfRecord>>() {
+            @Override
+            public void onChanged(List<GolfRecord> golfRecords) {
+                Log.d(TAG, "onChanged: " + "updates from view model");
+                if (getContext() != null) {
+                    playerResults = new ArrayList<>(golfRecords);
+                }
+            }
         });
-        graph.addSeries(series);
+
+
+        DataPoint[] myDataPoints = new DataPoint[playerResults.size()];
+
+        for (int i = 0; i < playerResults.size(); i++) {
+            DataPoint dp = new DataPoint(playerResults.get(i).getDate().getTime(), playerResults.get(i).getScore());
+            myDataPoints[i] = dp;
+        }
+        for (DataPoint d : myDataPoints) {
+            Log.d(TAG, "onItemSelected: " + d);
+        }
+
+
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(myDataPoints);
+
+        LineGraphSeries<DataPoint> series2 = new LineGraphSeries<DataPoint>(new DataPoint[] {
+                new DataPoint(1,4),
+                new DataPoint(3,3),
+                new DataPoint(5,6),
+                new DataPoint(8,9)
+
+        });
+
+
+        graph.addSeries(series2);
         //Put code here to populate the UI from the database
     }
 

@@ -47,5 +47,8 @@ public class GolfViewModel extends AndroidViewModel {
         });
     }
 
+    public LiveData<List<GolfRecord>> getSpecificName(final String n) {
+        return database.golfDao().loadPersonRecords(n);
+    }
 
 }
