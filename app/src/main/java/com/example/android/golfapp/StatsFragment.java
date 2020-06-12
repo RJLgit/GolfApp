@@ -91,7 +91,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         DataPoint[] myDataPoints = new DataPoint[playerResults.size()];
 
         for (int i = 0; i < playerResults.size(); i++) {
-            DataPoint dp = new DataPoint(playerResults.get(i).getDate().getTime(), playerResults.get(i).getScore());
+            DataPoint dp = new DataPoint(i + 1, playerResults.get(i).getScore());
             myDataPoints[i] = dp;
         }
         for (DataPoint d : myDataPoints) {
