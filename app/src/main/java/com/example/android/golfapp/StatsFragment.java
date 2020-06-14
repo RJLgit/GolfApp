@@ -21,6 +21,7 @@ import com.example.android.golfapp.Data.GolfDatabase;
 import com.example.android.golfapp.Data.GolfRecord;
 import com.example.android.golfapp.Data.GolfViewModel;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
@@ -122,11 +123,11 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
 
         ArrayList<Integer> rollingAverage;
         rollingAverage = getRollingAverage(playerResults);
-        
+
         DataPoint[] myDataPoints = new DataPoint[rollingAverage.size()];
 
         for (int i = 0; i < rollingAverage.size(); i++) {
-            DataPoint dp = new DataPoint(i + 1, rollingAverage.get(i));
+            DataPoint dp = new DataPoint(i, rollingAverage.get(i));
             myDataPoints[i] = dp;
         }
         for (DataPoint d : myDataPoints) {
@@ -135,8 +136,17 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
 
 
         LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(myDataPoints);
+        Viewport viewport = graph.getViewport();
+        viewport.setYAxisBoundsManual(true);
+        viewport.setXAxisBoundsManual(true);
+        /*viewport.setMaxXAxisSize(series.getHighestValueX());
+        viewport.setMaxYAxisSize(series.getHighestValueY());*/
+       viewport.setMaxX(series.getHighestValueX());
+       viewport.setMaxY(series.getHighestValueY() + 10);
+       viewport.setMinY(series.getLowestValueY() - 10);
 
         graph.addSeries(series);
+
 
 
         //Put code here to populate the UI from the database
