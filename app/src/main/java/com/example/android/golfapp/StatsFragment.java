@@ -151,6 +151,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         GridLabelRenderer gridLabel = graph.getGridLabelRenderer();
         gridLabel.setHorizontalAxisTitle("Least recent to most recent");
         gridLabel.setVerticalAxisTitle("Average score");
+        gridLabel.setHorizontalLabelsVisible(false);
 
 
         graph.addSeries(series);
