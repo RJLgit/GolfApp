@@ -21,6 +21,7 @@ import com.example.android.golfapp.Data.GolfDatabase;
 import com.example.android.golfapp.Data.GolfRecord;
 import com.example.android.golfapp.Data.GolfViewModel;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -120,6 +121,8 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
             }
         }
         recentRoundsTextView.setText(lastFiveResult);
+        //reverse for the graph
+        Collections.reverse(playerResults);
 
         ArrayList<Integer> rollingAverage;
         rollingAverage = getRollingAverage(playerResults);
@@ -141,9 +144,14 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         viewport.setXAxisBoundsManual(true);
         /*viewport.setMaxXAxisSize(series.getHighestValueX());
         viewport.setMaxYAxisSize(series.getHighestValueY());*/
-       viewport.setMaxX(series.getHighestValueX());
+       viewport.setMaxX(series.getHighestValueX() + 2);
        viewport.setMaxY(series.getHighestValueY() + 10);
        viewport.setMinY(series.getLowestValueY() - 10);
+
+        GridLabelRenderer gridLabel = graph.getGridLabelRenderer();
+        gridLabel.setHorizontalAxisTitle("Least recent to most recent");
+        gridLabel.setVerticalAxisTitle("Average score");
+
 
         graph.addSeries(series);
 
