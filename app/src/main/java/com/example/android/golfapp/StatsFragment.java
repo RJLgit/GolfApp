@@ -25,6 +25,8 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -88,7 +90,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         }
 
 
-        DataPoint[] myDataPoints = new DataPoint[playerResults.size()];
+       /* DataPoint[] myDataPoints = new DataPoint[playerResults.size()];
 
         for (int i = 0; i < playerResults.size(); i++) {
             DataPoint dp = new DataPoint(i + 1, playerResults.get(i).getScore());
@@ -101,9 +103,84 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
 
         LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(myDataPoints);
 
+        graph.addSeries(series);*/
+
+        Collections.sort(playerResults, new GolfRecord.DateComparator());
+        int size = 5;
+        if (playerResults.size() < 5) {
+            size = playerResults.size();
+        }
+        String lastFiveResult = "";
+        for (int i = 0; i < size; i++) {
+            if (i == 0) {
+                lastFiveResult = lastFiveResult + playerResults.get(i).getScore();
+            } else {
+                lastFiveResult = lastFiveResult + ", " + playerResults.get(i).getScore();
+            }
+        }
+        recentRoundsTextView.setText(lastFiveResult);
+
+        ArrayList<Integer> rollingAverage;
+        rollingAverage = getRollingAverage(playerResults);
+        
+        DataPoint[] myDataPoints = new DataPoint[rollingAverage.size()];
+
+        for (int i = 0; i < rollingAverage.size(); i++) {
+            DataPoint dp = new DataPoint(i + 1, rollingAverage.get(i));
+            myDataPoints[i] = dp;
+        }
+        for (DataPoint d : myDataPoints) {
+            Log.d(TAG, "onItemSelected: " + d);
+        }
+
+
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(myDataPoints);
+
         graph.addSeries(series);
+
+
         //Put code here to populate the UI from the database
     }
+
+    public ArrayList<Integer> getRollingAverage(ArrayList<GolfRecord> theRecords) {
+        ArrayList<Integer> result = new ArrayList<>();
+
+        for (int i = 0; i < theRecords.size(); i++) {
+            if (i == 0) {
+                result.add(theRecords.get(i).getScore());
+            } else if (i == 1) {
+                result.add((theRecords.get(i).getScore() + theRecords.get(i - 1).getScore()) / 2);
+            } else {
+                result.add((theRecords.get(i).getScore() + theRecords.get(i - 1).getScore() + theRecords.get(i - 2).getScore()) / 3);
+            }
+        }
+        Log.d(TAG, "getRollingAverage: " + result);
+        return result;
+
+
+
+   /*     ArrayList<Integer> result = new ArrayList<>();
+        for (int i = 0; i < theRecords.size(); i++) {
+            int rollingAverageSum = 0;
+            for (int j = i; j > i - 3 && j > 0; j--) {
+                rollingAverageSum = rollingAverageSum + theRecords.get(j).getScore();
+            }
+            int averageScore;
+            if (i == 0) {
+                averageScore = rollingAverageSum / 1;
+            } else if (i == 1) {
+                averageScore = rollingAverageSum / 2;
+            } else {
+                averageScore = rollingAverageSum / 3;
+            }
+
+
+            result.add(averageScore);
+        }
+        Log.d(TAG, "getRollingAverage: " + result);
+        return result;*/
+    }
+
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
