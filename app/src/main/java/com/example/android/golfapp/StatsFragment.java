@@ -44,6 +44,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     Spinner spinner;
     Spinner courseSpinner;
     TextView nameTextView;
+    TextView courseTextView;
     TextView recentRoundsTextView;
     GraphView graph;
     ArrayList<GolfRecord> allRecords = new ArrayList<>();
@@ -73,6 +74,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         courseSpinner.setOnItemSelectedListener(this);
         nameTextView = v.findViewById(R.id.stats_player_textview);
         recentRoundsTextView = v.findViewById(R.id.recent_rounds_textView);
+        courseTextView = v.findViewById(R.id.courseTextView);
         graph = v.findViewById(R.id.graph);
 
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, myNames);
@@ -92,6 +94,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
             name = spinner.getSelectedItem().toString();
             course = courseSpinner.getSelectedItem().toString();
             //name = (String) adapterView.getItemAtPosition(pos);
+        courseTextView.setText(course);
             nameTextView.setText(name);
 
 
@@ -130,6 +133,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         recentRoundsTextView.setText(lastFiveResult);
         //reverse for the graph
         Collections.reverse(playerResults);
+
 
         ArrayList<Integer> rollingAverage;
         rollingAverage = getRollingAverage(playerResults);

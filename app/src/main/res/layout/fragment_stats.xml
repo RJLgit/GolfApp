@@ -14,12 +14,13 @@
 
         <TextView
             android:id="@+id/selectCourseLabelTextView"
-            android:layout_width="49dp"
+            android:layout_width="37dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="Select Course:"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="10sp"
+            app:layout_constraintStart_toEndOf="@+id/stats_spinner"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Spinner
@@ -34,12 +35,13 @@
 
         <TextView
             android:id="@+id/selectPlayerLabelTextView"
-            android:layout_width="45dp"
+            android:layout_width="31dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="Select Player:"
-            app:layout_constraintStart_toEndOf="@+id/stats_course_spinner"
+            android:textSize="10sp"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Spinner
@@ -49,8 +51,6 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:translationZ="50dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/selectPlayerLabelTextView"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -62,16 +62,16 @@
             app:layout_constraintTop_toBottomOf="@id/stats_spinner">
 
 
-
             <TextView
                 android:id="@+id/stats_player_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                android:textSize="28sp"
+                android:layout_marginStart="72dp"
+                android:layout_marginTop="4dp"
                 android:text="Dummy Name"
+                android:textSize="28sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/recent_rounds_label_textView"
@@ -117,6 +117,18 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/graph_title_text_view" />
+
+            <TextView
+                android:id="@+id/courseTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:text="Course Name"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.182"
+                app:layout_constraintStart_toEndOf="@+id/stats_player_textview"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
