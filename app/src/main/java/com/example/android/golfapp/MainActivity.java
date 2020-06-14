@@ -100,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 Set<String> removeDuplicatesSet = new HashSet<>(golfCourses);
                 String[] arr = removeDuplicatesSet.toArray(new String[removeDuplicatesSet.size()]);
                 myEnterFragment.setCourses(arr);
+                myStatsFragment.setMyCourses(arr);
             }
         });
         viewModel.getRecords().observe(this, new Observer<List<GolfRecord>>() {

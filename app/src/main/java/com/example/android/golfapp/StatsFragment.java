@@ -48,7 +48,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     ArrayList<GolfRecord> allRecords = new ArrayList<>();
     Context mContext;
     String[] myNames;
-
+    String[] myCourses;
 
 
     public StatsFragment() {
@@ -225,5 +225,9 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
 
     public void setNames(String[] arr) {
             myNames = arr;
+    }
+
+    public void setMyCourses(String[] myCourses) {
+        this.myCourses = myCourses;
     }
 }
