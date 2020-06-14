@@ -42,6 +42,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     GolfDatabase mDb;
 
     Spinner spinner;
+    Spinner courseSpinner;
     TextView nameTextView;
     TextView recentRoundsTextView;
     GraphView graph;
@@ -49,6 +50,8 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     Context mContext;
     String[] myNames;
     String[] myCourses;
+    String name;
+    String course;
 
 
     public StatsFragment() {
@@ -66,6 +69,8 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         View v = inflater.inflate(R.layout.fragment_stats, container, false);
         spinner = v.findViewById(R.id.stats_spinner);
         spinner.setOnItemSelectedListener(this);
+        courseSpinner = v.findViewById(R.id.stats_course_spinner);
+        courseSpinner.setOnItemSelectedListener(this);
         nameTextView = v.findViewById(R.id.stats_player_textview);
         recentRoundsTextView = v.findViewById(R.id.recent_rounds_textView);
         graph = v.findViewById(R.id.graph);
@@ -73,20 +78,31 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, myNames);
         spinner.setAdapter(spinnerArrayAdapter);
 
+        ArrayAdapter<String> spinnerCourseArrayAdapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, myCourses);
+        courseSpinner.setAdapter(spinnerCourseArrayAdapter);
+
 
         return v;
     }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
-        String x = (String) adapterView.getItemAtPosition(pos);
-        nameTextView.setText(x);
+
+
+            name = spinner.getSelectedItem().toString();
+            course = courseSpinner.getSelectedItem().toString();
+            //name = (String) adapterView.getItemAtPosition(pos);
+            nameTextView.setText(name);
+
+            
+
+
         graph.removeAllSeries();
 
         ArrayList<GolfRecord> playerResults = new ArrayList<>();
 
         for (GolfRecord g : allRecords) {
-            if (g.getName().equals(x)) {
+            if (g.getName().equals(name)) {
                 playerResults.add(g);
             }
         }
@@ -227,7 +243,12 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
             myNames = arr;
     }
 
-    public void setMyCourses(String[] myCourses) {
-        this.myCourses = myCourses;
+    public void setMyCourses(String[] myParamCourses) {
+        String[] newStringArray = new String[myParamCourses.length + 1];
+        newStringArray[0] = "All Courses";
+        for (int i = 0; i < myParamCourses.length; i++) {
+            newStringArray[i + 1] = myParamCourses[i];
+        }
+        this.myCourses = newStringArray;
     }
 }
