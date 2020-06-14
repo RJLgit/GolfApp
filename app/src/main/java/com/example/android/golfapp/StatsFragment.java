@@ -94,34 +94,25 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
             //name = (String) adapterView.getItemAtPosition(pos);
             nameTextView.setText(name);
 
-            
+
 
 
         graph.removeAllSeries();
 
         ArrayList<GolfRecord> playerResults = new ArrayList<>();
-
-        for (GolfRecord g : allRecords) {
-            if (g.getName().equals(name)) {
-                playerResults.add(g);
+        if (course.equals("All Courses")) {
+            for (GolfRecord g : allRecords) {
+                if (g.getName().equals(name)) {
+                    playerResults.add(g);
+                }
+            }
+        } else {
+            for (GolfRecord g : allRecords) {
+                if (g.getName().equals(name) && g.getCourse().equals(course)) {
+                    playerResults.add(g);
+                }
             }
         }
-
-
-       /* DataPoint[] myDataPoints = new DataPoint[playerResults.size()];
-
-        for (int i = 0; i < playerResults.size(); i++) {
-            DataPoint dp = new DataPoint(i + 1, playerResults.get(i).getScore());
-            myDataPoints[i] = dp;
-        }
-        for (DataPoint d : myDataPoints) {
-            Log.d(TAG, "onItemSelected: " + d);
-        }
-
-
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(myDataPoints);
-
-        graph.addSeries(series);*/
 
         Collections.sort(playerResults, new GolfRecord.DateComparator());
         int size = 5;
