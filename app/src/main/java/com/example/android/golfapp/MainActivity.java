@@ -128,6 +128,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         c.set(Calendar.DAY_OF_MONTH, day);
         Log.d(TAG, "onDateSet: " + c);
         Date d = c.getTime();
+        Log.d(TAG, "onDateSet: " + d);
+        Log.d(TAG, "onDateSet: " + myEnterFragment);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         if (myEnterFragment != null) {
@@ -151,14 +153,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         Fragment myFragment = null;
         switch (menuItem.getItemId()) {
             case R.id.nav_enter:
-                final EnterFragment enterFragment = new EnterFragment();
+                myEnterFragment = new EnterFragment();
                 viewModel.getNames().observe(this, new Observer<List<String>>() {
                     @Override
                     public void onChanged(List<String> golfNames) {
                         Log.d(TAG, "onChanged: " + "set names adapter");
                         Set<String> removeDuplicatesSet = new HashSet<>(golfNames);
                         String[] arr = removeDuplicatesSet.toArray(new String[removeDuplicatesSet.size()]);
-                        enterFragment.setNames(arr);
+                        myEnterFragment.setNames(arr);
                     }
                 });
                 viewModel.getCourses().observe(this, new Observer<List<String>>() {
@@ -167,18 +169,18 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                         Log.d(TAG, "onChanged: " + "set courses adapter");
                         Set<String> removeDuplicatesSet = new HashSet<>(golfCourses);
                         String[] arr = removeDuplicatesSet.toArray(new String[removeDuplicatesSet.size()]);
-                        enterFragment.setCourses(arr);
+                        myEnterFragment.setCourses(arr);
                     }
                 });
                 toolbar.setSubtitle(getString(R.string.toolbar_enter_subtitle));
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, enterFragment).commit();
+                        .replace(R.id.fragment_container, myEnterFragment).commit();
                 break;
             case R.id.nav_list:
-                ListFragment listFragment = new ListFragment(myGolfDatabase);
+                myListFragment = new ListFragment(myGolfDatabase);
                 toolbar.setSubtitle(getString(R.string.toolbar_list_subtitle));
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, listFragment).commit();
+                        .replace(R.id.fragment_container, myListFragment).commit();
                 break;
             case R.id.nav_stats:
                 toolbar.setSubtitle(getString(R.string.toolbar_stats_subtitle));
