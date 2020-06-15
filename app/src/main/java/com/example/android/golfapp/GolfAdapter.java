@@ -41,11 +41,11 @@ public class GolfAdapter extends RecyclerView.Adapter<GolfAdapter.GolfViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull GolfViewHolder holder, int position) {
-        holder.nameTextView.setText(mFilteredData.get(position).getName());
-        holder.courseTextView.setText(mFilteredData.get(position).getCourse());
+        holder.nameTextView.setText("Player: " + mFilteredData.get(position).getName());
+        holder.courseTextView.setText("Course: " + mFilteredData.get(position).getCourse());
         holder.dateTextView.setText(getDateString(mFilteredData.get(position).getDate()));
-        holder.parTextView.setText(mFilteredData.get(position).getPar() + "");
-        holder.scoreTextView.setText(mFilteredData.get(position).getScore() + "");
+        holder.parTextView.setText("Par of: " + mFilteredData.get(position).getPar() + "");
+        holder.scoreTextView.setText("Scored: " + mFilteredData.get(position).getScore() + "");
     }
 
     private String getDateString(Date d) {
