@@ -58,7 +58,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/stats_spinner">
 
@@ -79,7 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="28dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="8dp"
                 android:text="Last 5 rounds:"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/stats_player_textview" />
@@ -88,7 +88,7 @@
                 android:id="@+id/recent_rounds_textView"
                 android:layout_width="138dp"
                 android:layout_height="22dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="8dp"
                 android:text="TextView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.458"
@@ -99,10 +99,10 @@
                 android:id="@+id/graph_title_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
-                android:textSize="20sp"
-                android:textAlignment="center"
+                android:layout_marginTop="8dp"
                 android:text="Average score over time - 3 round rolling average"
+                android:textAlignment="center"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/recent_rounds_label_textView" />
@@ -111,9 +111,7 @@
                 android:id="@+id/graph"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

@@ -162,13 +162,13 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         viewport.setXAxisBoundsManual(true);
         /*viewport.setMaxXAxisSize(series.getHighestValueX());
         viewport.setMaxYAxisSize(series.getHighestValueY());*/
-       viewport.setMaxX(series.getHighestValueX() + 2);
+       viewport.setMaxX(series.getHighestValueX());
        viewport.setMaxY(series.getHighestValueY() + 10);
        viewport.setMinY(series.getLowestValueY() - 10);
 
         GridLabelRenderer gridLabel = graph.getGridLabelRenderer();
         gridLabel.setHorizontalAxisTitle("Least recent to most recent");
-        gridLabel.setVerticalAxisTitle("Average score");
+        //gridLabel.setVerticalAxisTitle("Average score");
         gridLabel.setHorizontalLabelsVisible(false);
 
 
