@@ -90,11 +90,18 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
 
+            name = "";
+            course = "";
+            if (spinner.getSelectedItem() != null) {
+                name = spinner.getSelectedItem().toString();
+            }
+            if (spinner.getSelectedItem() != null) {
+                course = courseSpinner.getSelectedItem().toString();
+            }
 
-            name = spinner.getSelectedItem().toString();
-            course = courseSpinner.getSelectedItem().toString();
             //name = (String) adapterView.getItemAtPosition(pos);
-        courseTextView.setText(course);
+
+            courseTextView.setText(course);
             nameTextView.setText(name);
 
 
