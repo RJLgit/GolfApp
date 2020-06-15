@@ -11,125 +11,183 @@ android:layout_height="match_parent"
     android:background="#ede69d">
 
     <!-- TODO: Update blank fragment layout -->
+
     <TextView
         android:id="@+id/name_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="48dp"
-        android:text="Name"
+        android:layout_marginTop="8dp"
+        android:text="Enter player name"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <AutoCompleteTextView
         android:id="@+id/name_edit_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:completionThreshold="0"
         android:dropDownHeight="wrap_content"
         android:hint="Enter Name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        app:layout_constraintStart_toEndOf="@+id/name_label"
-        app:layout_constraintTop_toTopOf="@+id/name_label"
         android:maxLines="1"
         android:minLines="1"
-        android:theme="@style/DefaultNumberPickerTheme"/>
+        android:theme="@style/DefaultNumberPickerTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name_label" />
+
+    <View
+        android:id="@+id/firstDividerView"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+
+        android:layout_marginTop="8dp"
+        android:background="#000000"
+        app:layout_constraintTop_toBottomOf="@+id/name_edit_text" />
 
     <TextView
         android:id="@+id/course_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="48dp"
-        android:text="Course"
+        android:layout_marginTop="8dp"
+        android:text="Enter course name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/name_label" />
+        app:layout_constraintTop_toBottomOf="@+id/firstDividerView"
+        android:textStyle="bold"/>
 
     <AutoCompleteTextView
         android:id="@+id/course_edit_text"
-        android:completionThreshold="0"
-        android:hint="Enter course"
-        android:dropDownHeight="wrap_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@+id/name_edit_text"
-        app:layout_constraintTop_toTopOf="@+id/course_label"
+        android:layout_marginTop="4dp"
+        android:completionThreshold="0"
+        android:dropDownHeight="wrap_content"
+        android:hint="Enter course"
         android:maxLines="1"
         android:minLines="1"
-        android:theme="@style/DefaultNumberPickerTheme"/>
+        android:theme="@style/DefaultNumberPickerTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/course_label" />
+
+    <View
+        android:id="@+id/secondDividerView"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+
+        android:layout_marginTop="8dp"
+        android:background="#000000"
+        app:layout_constraintTop_toBottomOf="@+id/course_edit_text" />
 
     <TextView
         android:id="@+id/score_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="48dp"
-        android:text="Score"
+        android:layout_marginTop="8dp"
+        android:text="Enter Score"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/course_label" />
+        app:layout_constraintTop_toBottomOf="@+id/secondDividerView"
+        android:textStyle="bold"/>
 
     <NumberPicker
+        android:id="@+id/score_number_picker"
         android:layout_width="97dp"
         android:layout_height="53dp"
+        android:layout_marginTop="4dp"
         android:hint="Enter score"
-        android:id="@+id/score_number_picker"
-        app:layout_constraintStart_toStartOf="@+id/name_edit_text"
-        app:layout_constraintTop_toTopOf="@+id/score_label"
         android:theme="@style/DefaultNumberPickerTheme"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/score_label" />
+
+    <View
+        android:id="@+id/thirdDividerView"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="#000000"
+        app:layout_constraintTop_toBottomOf="@+id/score_number_picker" />
 
     <TextView
         android:id="@+id/par_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="48dp"
-        android:text="Par"
+        android:layout_marginTop="8dp"
+        android:text="Enter Par"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/score_label" />
+        app:layout_constraintTop_toBottomOf="@id/thirdDividerView" />
 
     <NumberPicker
         android:id="@+id/par_number_picker"
         android:layout_width="97dp"
         android:layout_height="53dp"
+        android:layout_marginTop="4dp"
         android:hint="Enter par"
-        app:layout_constraintStart_toStartOf="@+id/name_edit_text"
-        app:layout_constraintTop_toTopOf="@+id/par_label"
         android:theme="@style/DefaultNumberPickerTheme"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/par_label" />
+
+    <View
+        android:id="@+id/fourthDividerView"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="#000000"
+        app:layout_constraintTop_toBottomOf="@+id/par_number_picker" />
 
     <TextView
         android:id="@+id/date_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="48dp"
-        android:text="Date"
+        android:layout_marginTop="8dp"
+        android:text="Select Date"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/par_label" />
+        app:layout_constraintTop_toBottomOf="@id/fourthDividerView" />
 
     <EditText
+        android:id="@+id/date_edit_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Enter date"
 
+        android:layout_marginTop="4dp"
+        android:hint="Enter date"
         android:inputType="date"
-        android:id="@+id/date_edit_text"
-        app:layout_constraintStart_toStartOf="@+id/name_edit_text"
-        app:layout_constraintTop_toTopOf="@+id/date_label"
         android:theme="@style/DefaultNumberPickerTheme"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/date_label" />
+
+    <View
+        android:id="@+id/fifthDividerView"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="#000000"
+        app:layout_constraintTop_toBottomOf="@+id/date_edit_text" />
 
     <Button
         android:id="@+id/enterButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="32dp"
         android:text="Enter record"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.427"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/date_label" />
+        app:layout_constraintTop_toBottomOf="@+id/fifthDividerView"
+        android:textStyle="bold"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
