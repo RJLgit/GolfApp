@@ -85,6 +85,7 @@ public class EnterFragment extends Fragment {
                 if (b) {
                     Log.d(TAG, "onClick: date");
                     DialogFragment datePicker = new DatePickerFragment();
+
                     datePicker.show(getActivity().getSupportFragmentManager(), "date picker");
                 }
             }
