@@ -78,7 +78,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         setSupportActionBar(toolbar);
         toolbar.setLogo(R.drawable.ic_app_icon);
 
-        toolbar.setSubtitle(getString(R.string.toolbar_enter_subtitle));
 
         myGolfDatabase = GolfDatabase.getInstance(this);
 
@@ -122,14 +121,23 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         //Will need to replace this with data obtained from the database
         //((EnterFragment) myEnterFragment).setNames(new String[]{"Bob", "Tony", "Jeff"});
         if (savedInstanceState == null) {
+            toolbar.setSubtitle(getString(R.string.toolbar_enter_subtitle));
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right, R.anim.slide_in_left, R.anim.slide_out_right);
             transaction.replace(R.id.fragment_container, myEnterFragment).commit();
+        } else {
+            toolbar.setSubtitle(savedInstanceState.getString("toolbarSubtitle"));
         }
 
 
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putString("toolbarSubtitle", toolbar.getSubtitle().toString());
+        super.onSaveInstanceState(outState);
     }
 
     @Override
