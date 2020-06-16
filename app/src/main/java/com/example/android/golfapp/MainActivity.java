@@ -159,30 +159,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         switch (menuItem.getItemId()) {
             case R.id.nav_enter:
-                myEnterFragment = new EnterFragment();
-                viewModel.getNames().observe(this, new Observer<List<String>>() {
-                    @Override
-                    public void onChanged(List<String> golfNames) {
-                        Log.d(TAG, "onChanged: " + "set names adapter");
-                        Set<String> removeDuplicatesSet = new HashSet<>(golfNames);
-                        String[] arr = removeDuplicatesSet.toArray(new String[removeDuplicatesSet.size()]);
-                        myEnterFragment.setNames(arr);
-                    }
-                });
-                viewModel.getCourses().observe(this, new Observer<List<String>>() {
-                    @Override
-                    public void onChanged(List<String> golfCourses) {
-                        Log.d(TAG, "onChanged: " + "set courses adapter");
-                        Set<String> removeDuplicatesSet = new HashSet<>(golfCourses);
-                        String[] arr = removeDuplicatesSet.toArray(new String[removeDuplicatesSet.size()]);
-                        myEnterFragment.setCourses(arr);
-                    }
-                });
                 toolbar.setSubtitle(getString(R.string.toolbar_enter_subtitle));
                 transaction.replace(R.id.fragment_container, myEnterFragment).commit();
                 break;
             case R.id.nav_list:
-                myListFragment = new ListFragment(myGolfDatabase);
                 toolbar.setSubtitle(getString(R.string.toolbar_list_subtitle));
                 transaction.replace(R.id.fragment_container, myListFragment).commit();
                 break;
