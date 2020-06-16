@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -114,8 +116,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         //Will need to replace this with data obtained from the database
         //((EnterFragment) myEnterFragment).setNames(new String[]{"Bob", "Tony", "Jeff"});
 
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, myEnterFragment).commit();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.fragment_container, myEnterFragment).commit();
+
 
     }
 
@@ -151,6 +155,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         Fragment myFragment = null;
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
         switch (menuItem.getItemId()) {
             case R.id.nav_enter:
                 myEnterFragment = new EnterFragment();
@@ -173,19 +179,16 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     }
                 });
                 toolbar.setSubtitle(getString(R.string.toolbar_enter_subtitle));
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, myEnterFragment).commit();
+                transaction.replace(R.id.fragment_container, myEnterFragment).commit();
                 break;
             case R.id.nav_list:
                 myListFragment = new ListFragment(myGolfDatabase);
                 toolbar.setSubtitle(getString(R.string.toolbar_list_subtitle));
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, myListFragment).commit();
+                transaction.replace(R.id.fragment_container, myListFragment).commit();
                 break;
             case R.id.nav_stats:
                 toolbar.setSubtitle(getString(R.string.toolbar_stats_subtitle));
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, myStatsFragment).commit();
+                transaction.replace(R.id.fragment_container, myStatsFragment).commit();
                 break;
             default:
                 getSupportFragmentManager().beginTransaction()
@@ -229,5 +232,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         if (myMenu != null) {
             myMenu.setGroupVisible(R.id.settingsItemsToHide, true);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (myEnterFragment != null && !myEnterFragment.isVisible()) {
+            //onNavigationItemSelected(bottomNavigationView.getMenu().getItem(0));
+            bottomNavigationView.setSelectedItemId(bottomNavigationView.getMenu().getItem(0).getItemId());
+        } else {
+            super.onBackPressed();
+        }
+
+
     }
 }
