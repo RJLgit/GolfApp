@@ -83,6 +83,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         if (savedInstanceState != null) {
             myNames = savedInstanceState.getStringArray("namesArray");
             myCourses = savedInstanceState.getStringArray("coursesArray");
+            allRecords = (ArrayList<GolfRecord>) savedInstanceState.getSerializable("recordsList");
         }
 
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, myNames);
@@ -99,7 +100,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     public void onSaveInstanceState(@NonNull Bundle outState) {
         outState.putStringArray("namesArray", myNames);
         outState.putStringArray("coursesArray", myCourses);
-        //outState.putParcelableArrayList("recordsList", allRecords);
+        outState.putSerializable("recordsList", allRecords);
         super.onSaveInstanceState(outState);
     }
 

@@ -59,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_main);
         viewModel = new ViewModelProvider(this).get(GolfViewModel.class);
 
@@ -68,6 +70,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         container = findViewById(R.id.fragment_container);
         bottomNavigationView = findViewById(R.id.bott_nav_bar);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
+
+
         toolbar = findViewById(R.id.toolbar);
 
 

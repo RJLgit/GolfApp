@@ -1,5 +1,6 @@
 package com.example.android.golfapp.Data;
 
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Date;
 
@@ -8,7 +9,7 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "golfscores")
-public class GolfRecord {
+public class GolfRecord implements Serializable {
 
     @PrimaryKey(autoGenerate =  true)
     private int id;
