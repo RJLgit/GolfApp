@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     StatsFragment myStatsFragment;
 
     private Menu myMenu;
+    boolean menuVisible;
 
     int previousFragment = 0;
 
@@ -122,12 +123,21 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         //((EnterFragment) myEnterFragment).setNames(new String[]{"Bob", "Tony", "Jeff"});
         if (savedInstanceState == null) {
             toolbar.setSubtitle(getString(R.string.toolbar_enter_subtitle));
+            hideMenus();
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right, R.anim.slide_in_left, R.anim.slide_out_right);
             transaction.replace(R.id.fragment_container, myEnterFragment).commit();
+
         } else {
             toolbar.setSubtitle(savedInstanceState.getString("toolbarSubtitle"));
+            menuVisible = savedInstanceState.getBoolean("showMenu");
+           /* if (savedInstanceState.getBoolean("showMenu")) {
+                Log.d(TAG, "onCreate: " + savedInstanceState.getBoolean("showMenu"));
+                showMenus();
+            } else {
+                hideMenus();
+            }*/
         }
 
 
@@ -137,6 +147,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         outState.putString("toolbarSubtitle", toolbar.getSubtitle().toString());
+        outState.putBoolean("showMenu", menuVisible);
         super.onSaveInstanceState(outState);
     }
 
@@ -179,6 +190,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 toolbar.setSubtitle(getString(R.string.toolbar_enter_subtitle));
                 transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_right, R.anim.slide_out_left);
                 transaction.replace(R.id.fragment_container, myEnterFragment).commit();
+                //hideMenus();
                 previousFragment = 0;
                 break;
             case R.id.nav_list:
@@ -189,12 +201,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_right, R.anim.slide_out_left);
                 }
                 transaction.replace(R.id.fragment_container, myListFragment).commit();
+                //showMenus();
                 previousFragment = 1;
                 break;
             case R.id.nav_stats:
                 toolbar.setSubtitle(getString(R.string.toolbar_stats_subtitle));
                 transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right, R.anim.slide_in_left, R.anim.slide_out_right);
                 transaction.replace(R.id.fragment_container, myStatsFragment).commit();
+                //hideMenus();
                 previousFragment = 2;
                 break;
             default:
@@ -207,10 +221,16 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        Log.d(TAG, "onCreateOptionsMenu: ");
         myMenu = menu;
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.settings_menu, menu);
         myMenu.setGroupVisible(R.id.settingsItemsToHide, false);
+        if (menuVisible) {
+            showMenus();
+        } else {
+            hideMenus();
+        }
         return true;
     }
 
@@ -232,13 +252,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     public void hideMenus() {
+        Log.d(TAG, "hideMenus: " + myMenu);
         if (myMenu != null) {
             myMenu.setGroupVisible(R.id.settingsItemsToHide, false);
+            menuVisible = false;
         }
     }
     public void showMenus() {
+        Log.d(TAG, "showMenus: " + myMenu);
         if (myMenu != null) {
             myMenu.setGroupVisible(R.id.settingsItemsToHide, true);
+            menuVisible = true;
         }
     }
 

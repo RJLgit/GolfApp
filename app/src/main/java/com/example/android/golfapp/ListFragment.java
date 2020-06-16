@@ -135,6 +135,7 @@ public class ListFragment extends Fragment implements SharedPreferences.OnShared
         super.onAttach(context);
         if (context instanceof MainActivity) {
             MainActivity activity = (MainActivity) context;
+            Log.d(TAG, "onAttach: ");
             activity.showMenus();
         } else {
             throw new RuntimeException(context.toString()
