@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         myEnterFragment = new EnterFragment();
         myListFragment = new ListFragment();
-        myStatsFragment = new StatsFragment(this);
+        myStatsFragment = new StatsFragment();
 
 
 
@@ -117,11 +117,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         });
         //Will need to replace this with data obtained from the database
         //((EnterFragment) myEnterFragment).setNames(new String[]{"Bob", "Tony", "Jeff"});
+        if (savedInstanceState == null) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right, R.anim.slide_in_left, R.anim.slide_out_right);
+            transaction.replace(R.id.fragment_container, myEnterFragment).commit();
+        }
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right, R.anim.slide_in_left, R.anim.slide_out_right);
-        transaction.replace(R.id.fragment_container, myEnterFragment).commit();
 
 
     }

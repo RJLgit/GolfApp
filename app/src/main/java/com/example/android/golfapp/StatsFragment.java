@@ -4,6 +4,7 @@ package com.example.android.golfapp;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -48,7 +49,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     TextView recentRoundsTextView;
     GraphView graph;
     ArrayList<GolfRecord> allRecords = new ArrayList<>();
-    Context mContext;
+    //Context mContext;
     String[] myNames;
     String[] myCourses;
     String name;
@@ -59,9 +60,9 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         // Required empty public constructor
     }
 
-    public StatsFragment(Context context) {
-        mContext = context;
-    }
+    //public StatsFragment(Context context) {
+        //mContext = context;
+    //}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,15 +77,30 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         recentRoundsTextView = v.findViewById(R.id.recent_rounds_textView);
         courseTextView = v.findViewById(R.id.courseTextView);
         graph = v.findViewById(R.id.graph);
+        Log.d(TAG, "onCreateView: " + myNames);
+        //Log.d(TAG, "onCreateView: " + mContext);
 
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, myNames);
+        if (savedInstanceState != null) {
+            myNames = savedInstanceState.getStringArray("namesArray");
+            myCourses = savedInstanceState.getStringArray("coursesArray");
+        }
+
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, myNames);
         spinner.setAdapter(spinnerArrayAdapter);
 
-        ArrayAdapter<String> spinnerCourseArrayAdapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, myCourses);
+        ArrayAdapter<String> spinnerCourseArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, myCourses);
         courseSpinner.setAdapter(spinnerCourseArrayAdapter);
 
 
         return v;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putStringArray("namesArray", myNames);
+        outState.putStringArray("coursesArray", myCourses);
+        //outState.putParcelableArrayList("recordsList", allRecords);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
