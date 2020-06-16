@@ -210,6 +210,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
             intent.putExtra("Names", myGolfNames);
             startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_top, R.anim.slide_out_bottom);
             return true;
         }
 

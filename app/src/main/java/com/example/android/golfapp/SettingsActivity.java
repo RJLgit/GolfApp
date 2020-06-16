@@ -40,6 +40,7 @@ public class SettingsActivity extends AppCompatActivity {
         if (id == android.R.id.home) {
             //Navigates up to MainActivity using this method
             NavUtils.navigateUpFromSameTask(this);
+            overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_top);
 
         }
         return super.onOptionsItemSelected(item);
