@@ -51,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     private Menu myMenu;
 
+    int previousFragment = 0;
+
 
 
 
@@ -118,6 +120,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right, R.anim.slide_in_left, R.anim.slide_out_right);
         transaction.replace(R.id.fragment_container, myEnterFragment).commit();
 
 
@@ -160,15 +163,25 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         switch (menuItem.getItemId()) {
             case R.id.nav_enter:
                 toolbar.setSubtitle(getString(R.string.toolbar_enter_subtitle));
+                transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_right, R.anim.slide_out_left);
                 transaction.replace(R.id.fragment_container, myEnterFragment).commit();
+                previousFragment = 0;
                 break;
             case R.id.nav_list:
                 toolbar.setSubtitle(getString(R.string.toolbar_list_subtitle));
+                if (previousFragment == 0) {
+                    transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right, R.anim.slide_in_left, R.anim.slide_out_right);
+                } else {
+                    transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_right, R.anim.slide_out_left);
+                }
                 transaction.replace(R.id.fragment_container, myListFragment).commit();
+                previousFragment = 1;
                 break;
             case R.id.nav_stats:
                 toolbar.setSubtitle(getString(R.string.toolbar_stats_subtitle));
+                transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right, R.anim.slide_in_left, R.anim.slide_out_right);
                 transaction.replace(R.id.fragment_container, myStatsFragment).commit();
+                previousFragment = 2;
                 break;
             default:
                 getSupportFragmentManager().beginTransaction()
