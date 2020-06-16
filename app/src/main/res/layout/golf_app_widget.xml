@@ -12,7 +12,7 @@
         android:padding="0dp"
         android:layout_alignParentTop="true"
         android:layout_marginTop="2dp"
-        android:src="@mipmap/ic_launcher_round"
+        android:src="@drawable/ic_golf_widget"
         android:contentDescription="Widget Image"/>
 
 
