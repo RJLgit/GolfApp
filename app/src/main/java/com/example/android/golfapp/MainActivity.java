@@ -139,8 +139,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 hideMenus();
             }*/
         }
+    }
 
-
+    @Override
+    protected void onDestroy() {
+        myEnterFragment = null;
+        myListFragment = null;
+        myStatsFragment = null;
+        super.onDestroy();
 
     }
 

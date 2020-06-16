@@ -96,6 +96,8 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         return v;
     }
 
+
+
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         outState.putStringArray("namesArray", myNames);
