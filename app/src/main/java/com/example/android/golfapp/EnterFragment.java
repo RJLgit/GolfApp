@@ -158,6 +158,8 @@ public class EnterFragment extends Fragment {
         return v;
     }
 
+
+
     private void clearAllFields() {
         nameEditText.getText().clear();
         courseEditText.getText().clear();
