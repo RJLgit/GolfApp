@@ -3,12 +3,10 @@ package com.example.android.golfapp;
 
 import android.content.Context;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +15,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import com.example.android.golfapp.Data.GolfDatabase;
 import com.example.android.golfapp.Data.GolfRecord;
 import com.example.android.golfapp.Data.GolfViewModel;
@@ -26,34 +23,32 @@ import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
-
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class StatsFragment extends Fragment implements AdapterView.OnItemSelectedListener {
     private static final String TAG = "StatsFragment";
-    GolfDatabase mDb;
-
+    //UI elements
     Spinner spinner;
     Spinner courseSpinner;
     TextView nameTextView;
     TextView courseTextView;
     TextView recentRoundsTextView;
     GraphView graph;
+    //Variables with the data needed for the spinners and to populate the graph
     ArrayList<GolfRecord> allRecords = new ArrayList<>();
-    //Context mContext;
     String[] myNames;
     String[] myCourses;
+    //The name and course as strings to populate the UI
     String name;
     String course;
+    //The int representing the name and course selected in the spinners
     int nameSelection;
     int courseSelection;
 
@@ -61,11 +56,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     public StatsFragment() {
         // Required empty public constructor
     }
-
-    //public StatsFragment(Context context) {
-        //mContext = context;
-    //}
-
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
