@@ -124,11 +124,11 @@ public class GolfAdapter extends RecyclerView.Adapter<GolfAdapter.GolfViewHolder
 
     //The data is sorted using the Comparators defined int he GolfRecord class This is done before the variable holding the filtered data is updated, so it will always be sorted correctly
     public void sortData(String s, ArrayList<GolfRecord> arrayList) {
-        if (s.equals("Most recent")) {
+        if (s.equals(mContext.getString(R.string.adapter_sort_most_recent))) {
             Collections.sort(arrayList, new GolfRecord.DateComparator());
-        } if (s.equals("Player - alphabetical")) {
+        } if (s.equals(mContext.getString(R.string.adapter_sort_a_to_z))) {
             Collections.sort(arrayList, new GolfRecord.NameComparator());
-        } if (s.equals("Score")) {
+        } if (s.equals(mContext.getString(R.string.adapter_sort_score))) {
             Collections.sort(arrayList, new GolfRecord.ScoreComparator());
         }
     }

@@ -59,6 +59,9 @@
     <string name="adapter_filter_all_rounds">All rounds</string>
     <string name="adapter_filter_last_6_months">Last 6 months</string>
     <string name="adapter_filter_last_3_months">Last 3 months</string>
+    <string name="adapter_sort_most_recent">Most recent</string>
+    <string name="adapter_sort_a_to_z">Player - alphabetical</string>
+    <string name="adapter_sort_score">Score</string>
 
 
 </resources>
