@@ -34,7 +34,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, EnterFragment.EnterFragmentListener, DatePickerDialog.OnDateSetListener {
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, EnterFragment.EnterFragmentListener {
     private static final String TAG = "MainActivity";
     //UI elements
     FrameLayout container;
@@ -45,9 +45,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     GolfViewModel viewModel;
     String[] myGolfNames;
 
-    EnterFragment myEnterFragment;
-    ListFragment myListFragment;
-    StatsFragment myStatsFragment;
 
     private Menu myMenu;
     boolean menuVisible;
@@ -64,6 +61,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         setContentView(R.layout.activity_main);
         viewModel = new ViewModelProvider(this).get(GolfViewModel.class);
+        viewModel.getNames().observe(this, new Observer<List<String>>() {
+            @Override
+            public void onChanged(List<String> strings) {
+                Set<String> removeDuplicatesSet = new HashSet<>(strings);
+                String[] arr = removeDuplicatesSet.toArray(new String[removeDuplicatesSet.size()]);
+                setMyGolfNames(arr);
+            }
+        });
 
 
 
@@ -82,43 +87,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         myGolfDatabase = GolfDatabase.getInstance(this);
 
-        myEnterFragment = new EnterFragment();
-        myListFragment = new ListFragment();
-        myStatsFragment = new StatsFragment();
 
-
-
-
-
-        viewModel.getNames().observe(this, new Observer<List<String>>() {
-            @Override
-            public void onChanged(List<String> golfNames) {
-                Log.d(TAG, "onChanged: " + "set names adapter");
-                Set<String> removeDuplicatesSet = new HashSet<>(golfNames);
-                String[] arr = removeDuplicatesSet.toArray(new String[removeDuplicatesSet.size()]);
-                myGolfNames = arr;
-                myEnterFragment.setNames(arr);
-                myStatsFragment.setNames(arr);
-            }
-        });
-        viewModel.getCourses().observe(this, new Observer<List<String>>() {
-            @Override
-            public void onChanged(List<String> golfCourses) {
-                Log.d(TAG, "onChanged: " + "set courses adapter");
-                Set<String> removeDuplicatesSet = new HashSet<>(golfCourses);
-                String[] arr = removeDuplicatesSet.toArray(new String[removeDuplicatesSet.size()]);
-                myEnterFragment.setCourses(arr);
-                myStatsFragment.setMyCourses(arr);
-            }
-        });
-        viewModel.getRecords().observe(this, new Observer<List<GolfRecord>>() {
-            @Override
-            public void onChanged(List<GolfRecord> golfRecords) {
-                Log.d(TAG, "onChanged: " + "set courses adapter");
-                ArrayList<GolfRecord> myRecords = new ArrayList<>(golfRecords);
-                myStatsFragment.setRecords(myRecords);
-            }
-        });
         //Will need to replace this with data obtained from the database
         //((EnterFragment) myEnterFragment).setNames(new String[]{"Bob", "Tony", "Jeff"});
         if (savedInstanceState == null) {
@@ -127,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right, R.anim.slide_in_left, R.anim.slide_out_right);
-            transaction.replace(R.id.fragment_container, myEnterFragment).commit();
+            transaction.replace(R.id.fragment_container, new EnterFragment()).commit();
 
         } else {
             toolbar.setSubtitle(savedInstanceState.getString("toolbarSubtitle"));
@@ -141,11 +110,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
     }
 
+    public void setMyGolfNames(String[] myGolfNames) {
+        this.myGolfNames = myGolfNames;
+    }
+
     @Override
     protected void onDestroy() {
-        myEnterFragment = null;
-        myListFragment = null;
-        myStatsFragment = null;
         super.onDestroy();
 
     }
@@ -157,24 +127,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         super.onSaveInstanceState(outState);
     }
 
-    @Override
-    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-        Log.d(TAG, "onDateSet: ");
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR, year);
-        c.set(Calendar.MONTH, month);
-        c.set(Calendar.DAY_OF_MONTH, day);
-        Log.d(TAG, "onDateSet: " + c);
-        Date d = c.getTime();
-        Log.d(TAG, "onDateSet: " + d);
-        Log.d(TAG, "onDateSet: " + myEnterFragment);
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        if (myEnterFragment != null) {
-            myEnterFragment.dateSet(dateFormat.format(d));
-        }
-
-    }
 
     //Inserts the record in the database
     @Override
@@ -188,14 +140,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        Fragment myFragment = null;
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         switch (menuItem.getItemId()) {
             case R.id.nav_enter:
                 toolbar.setSubtitle(getString(R.string.toolbar_enter_subtitle));
                 transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_right, R.anim.slide_out_left);
-                transaction.replace(R.id.fragment_container, myEnterFragment).commit();
+                transaction.replace(R.id.fragment_container, new EnterFragment()).commit();
                 //hideMenus();
                 previousFragment = 0;
                 break;
@@ -206,20 +157,20 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 } else {
                     transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_right, R.anim.slide_out_left);
                 }
-                transaction.replace(R.id.fragment_container, myListFragment).commit();
+                transaction.replace(R.id.fragment_container, new ListFragment()).commit();
                 //showMenus();
                 previousFragment = 1;
                 break;
             case R.id.nav_stats:
                 toolbar.setSubtitle(getString(R.string.toolbar_stats_subtitle));
                 transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right, R.anim.slide_in_left, R.anim.slide_out_right);
-                transaction.replace(R.id.fragment_container, myStatsFragment).commit();
+                transaction.replace(R.id.fragment_container, new StatsFragment()).commit();
                 //hideMenus();
                 previousFragment = 2;
                 break;
             default:
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, myFragment).commit();
+                        .replace(R.id.fragment_container, new EnterFragment()).commit();
                 break;
         }
         return true;
@@ -245,12 +196,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         int id = item.getItemId();
         if (id == R.id.sortAndFilterSettings) {
             //Pass name data here
+            if (myGolfNames != null) {
+                Intent intent = new Intent(this, SettingsActivity.class);
 
-            Intent intent = new Intent(this, SettingsActivity.class);
+                intent.putExtra("Names", myGolfNames);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_top, R.anim.slide_out_bottom);
+            }
 
-            intent.putExtra("Names", myGolfNames);
-            startActivity(intent);
-            overridePendingTransition(R.anim.slide_in_top, R.anim.slide_out_bottom);
             return true;
         }
 
@@ -272,8 +225,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
     }
 
-    @Override
+/*    @Override
     public void onBackPressed() {
+
         if (myEnterFragment != null && !myEnterFragment.isVisible()) {
             //onNavigationItemSelected(bottomNavigationView.getMenu().getItem(0));
             bottomNavigationView.setSelectedItemId(bottomNavigationView.getMenu().getItem(0).getItemId());
@@ -282,5 +236,5 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
 
 
-    }
+    }*/
 }

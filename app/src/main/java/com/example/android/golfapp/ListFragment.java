@@ -31,7 +31,9 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -114,8 +116,8 @@ public class ListFragment extends Fragment implements SharedPreferences.OnShared
             }
         }).attachToRecyclerView(myRecyclerView);
 
-        GolfViewModel viewModel = new ViewModelProvider(getActivity()).get(GolfViewModel.class);
-        viewModel.getRecords().observe(getActivity(), new Observer<List<GolfRecord>>() {
+        GolfViewModel viewModel = new ViewModelProvider(requireActivity()).get(GolfViewModel.class);
+        viewModel.getRecords().observe(getViewLifecycleOwner(), new Observer<List<GolfRecord>>() {
             @Override
             public void onChanged(List<GolfRecord> golfRecords) {
                 Log.d(TAG, "onChanged: " + "updates from view model");
@@ -124,6 +126,8 @@ public class ListFragment extends Fragment implements SharedPreferences.OnShared
                         sharedPreferences.getString("sort_preference", "Most recent"));
             }
         });
+
+
 
 
 

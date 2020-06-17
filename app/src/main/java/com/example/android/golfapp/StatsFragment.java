@@ -85,12 +85,39 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
             myCourses = savedInstanceState.getStringArray("coursesArray");
             allRecords = (ArrayList<GolfRecord>) savedInstanceState.getSerializable("recordsList");
         }
+        GolfViewModel viewModel = new ViewModelProvider(requireActivity()).get(GolfViewModel.class);
+        viewModel.getRecords().observe(getViewLifecycleOwner(), new Observer<List<GolfRecord>>() {
+            @Override
+            public void onChanged(List<GolfRecord> golfRecords) {
+                Log.d(TAG, "onChanged: " + "set courses adapter");
+                ArrayList<GolfRecord> myRecords = new ArrayList<>(golfRecords);
+                setRecords(myRecords);
+            }
+        });
 
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, myNames);
-        spinner.setAdapter(spinnerArrayAdapter);
+        viewModel.getNames().observe(getViewLifecycleOwner(), new Observer<List<String>>() {
+            @Override
+            public void onChanged(List<String> golfNames) {
+                Log.d(TAG, "onChanged: " + "set names adapter");
+                Set<String> removeDuplicatesSet = new HashSet<>(golfNames);
+                String[] arr = removeDuplicatesSet.toArray(new String[removeDuplicatesSet.size()]);
+                setNames(arr);
+            }
+        });
+        viewModel.getCourses().observe(getViewLifecycleOwner(), new Observer<List<String>>() {
+            @Override
+            public void onChanged(List<String> golfCourses) {
+                Log.d(TAG, "onChanged: " + "set courses adapter");
+                Set<String> removeDuplicatesSet = new HashSet<>(golfCourses);
+                String[] arr = removeDuplicatesSet.toArray(new String[removeDuplicatesSet.size()]);
+                setMyCourses(arr);
+            }
+        });
 
-        ArrayAdapter<String> spinnerCourseArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, myCourses);
-        courseSpinner.setAdapter(spinnerCourseArrayAdapter);
+
+
+
+
 
 
         return v;
@@ -262,6 +289,8 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
 
     public void setNames(String[] arr) {
             myNames = arr;
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, myNames);
+        spinner.setAdapter(spinnerArrayAdapter);
     }
 
     public void setMyCourses(String[] myParamCourses) {
@@ -271,5 +300,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
             newStringArray[i + 1] = myParamCourses[i];
         }
         this.myCourses = newStringArray;
+        ArrayAdapter<String> spinnerCourseArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, myCourses);
+        courseSpinner.setAdapter(spinnerCourseArrayAdapter);
     }
 }

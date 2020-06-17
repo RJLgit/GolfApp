@@ -7,6 +7,8 @@ import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,15 +24,22 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.golfapp.Data.GolfRecord;
+import com.example.android.golfapp.Data.GolfViewModel;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class EnterFragment extends Fragment {
+public class EnterFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
 
     private static final String TAG = "EnterFragment";
     //UI elements
@@ -90,35 +99,23 @@ public class EnterFragment extends Fragment {
                 }
             }
         });
-
-        //Sets adapters to AutoCompleteTextViews
-        ArrayAdapter<String> namesAdapter = new ArrayAdapter<String>(getContext(),
-                android.R.layout.simple_dropdown_item_1line, names);
-        nameEditText.setAdapter(namesAdapter);
-
-        ArrayAdapter<String> coursesAdapter = new ArrayAdapter<String>(getContext(),
-                android.R.layout.simple_dropdown_item_1line, courses);
-        courseEditText.setAdapter(coursesAdapter);
-        //Shows dropdown when has focus
-        nameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        GolfViewModel viewModel = new ViewModelProvider(requireActivity()).get(GolfViewModel.class);
+        viewModel.getNames().observe(getViewLifecycleOwner(), new Observer<List<String>>() {
             @Override
-            public void onFocusChange(View view, boolean b) {
-                if (b) {
-                    nameEditText.showDropDown();
-                } else {
-                    nameEditText.dismissDropDown();
-                }
+            public void onChanged(List<String> golfNames) {
+                Log.d(TAG, "onChanged: " + "set names adapter");
+                Set<String> removeDuplicatesSet = new HashSet<>(golfNames);
+                String[] arr = removeDuplicatesSet.toArray(new String[removeDuplicatesSet.size()]);
+                setNames(arr);
             }
         });
-        //Shows dropdown when has focus
-        courseEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        viewModel.getCourses().observe(getViewLifecycleOwner(), new Observer<List<String>>() {
             @Override
-            public void onFocusChange(View view, boolean b) {
-                if (b) {
-                    courseEditText.showDropDown();
-                } else {
-                    courseEditText.dismissDropDown();
-                }
+            public void onChanged(List<String> golfCourses) {
+                Log.d(TAG, "onChanged: " + "set courses adapter");
+                Set<String> removeDuplicatesSet = new HashSet<>(golfCourses);
+                String[] arr = removeDuplicatesSet.toArray(new String[removeDuplicatesSet.size()]);
+                setCourses(arr);
             }
         });
 
@@ -183,6 +180,17 @@ public class EnterFragment extends Fragment {
                     android.R.layout.simple_dropdown_item_1line, names);
             if (nameEditText != null) {
                 nameEditText.setAdapter(namesAdapter);
+                //Shows dropdown when has focus
+                nameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View view, boolean b) {
+                        if (b) {
+                            nameEditText.showDropDown();
+                        } else {
+                            nameEditText.dismissDropDown();
+                        }
+                    }
+                });
             }
         }
     }
@@ -190,6 +198,7 @@ public class EnterFragment extends Fragment {
     public String[] getCourses() {
         return courses;
     }
+
     //When courses is set then it sets the courses to the edit text
     public void setCourses(String[] courses) {
         this.courses = courses;
@@ -198,6 +207,17 @@ public class EnterFragment extends Fragment {
                     android.R.layout.simple_dropdown_item_1line, courses);
             if (courseEditText !=null) {
                 courseEditText.setAdapter(coursesAdapter);
+                //Shows dropdown when has focus
+                courseEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View view, boolean b) {
+                        if (b) {
+                            courseEditText.showDropDown();
+                        } else {
+                            courseEditText.dismissDropDown();
+                        }
+                    }
+                });
             }
         }
     }
@@ -233,4 +253,18 @@ public class EnterFragment extends Fragment {
         void onRecordSent(String name, String course, int par, int score, Date date);
     }
 
+    @Override
+    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+        Log.d(TAG, "onDateSet: ");
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, month);
+        c.set(Calendar.DAY_OF_MONTH, day);
+        Log.d(TAG, "onDateSet: " + c);
+        Date d = c.getTime();
+        Log.d(TAG, "onDateSet: " + d);
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        dateSet(dateFormat.format(d));
+    }
 }
