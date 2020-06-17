@@ -3,32 +3,21 @@ package com.example.android.golfapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-
-import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.DatePicker;
 import android.widget.FrameLayout;
-
 import com.example.android.golfapp.Data.GolfDatabase;
 import com.example.android.golfapp.Data.GolfRecord;
 import com.example.android.golfapp.Data.GolfViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import java.lang.reflect.Array;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -40,26 +29,25 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     FrameLayout container;
     BottomNavigationView bottomNavigationView;
     Toolbar toolbar;
+
     //Database variables
-    private GolfDatabase myGolfDatabase;
     GolfViewModel viewModel;
     String[] myGolfNames;
 
-
+    //Menu variables
     private Menu myMenu;
     boolean menuVisible;
 
+    //Helper variable to handle transition animations
     int previousFragment = 0;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         setContentView(R.layout.activity_main);
+        //View model observes the player names in the database, and when it is updated it updates the myGolfNames variable
+        //This is needed because the options menu is set in the activity. And when the settings menu item is clicked it needs
+        //to send this information in an intent to the settings activity to populate one of the settings.
         viewModel = new ViewModelProvider(this).get(GolfViewModel.class);
         viewModel.getNames().observe(this, new Observer<List<String>>() {
             @Override
@@ -69,63 +57,97 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 setMyGolfNames(arr);
             }
         });
-
-
-
-
+        //Assigns the UI elements to variables
         container = findViewById(R.id.fragment_container);
         bottomNavigationView = findViewById(R.id.bott_nav_bar);
+        toolbar = findViewById(R.id.toolbar);
+        //This activity implements the OnNavigationItemSelectedListener interface, so it listens for clicks on the bottom nav bar
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
-
-        toolbar = findViewById(R.id.toolbar);
-
-
+        //The toolbar is set as the action bar with the logo set too
         setSupportActionBar(toolbar);
         toolbar.setLogo(R.drawable.ic_app_icon);
 
-
-        myGolfDatabase = GolfDatabase.getInstance(this);
-
-
-        //Will need to replace this with data obtained from the database
-        //((EnterFragment) myEnterFragment).setNames(new String[]{"Bob", "Tony", "Jeff"});
+        //If there is no savedinstance state then want to load the EnterFragment into the container. This is the behaviour for when the activity launches
         if (savedInstanceState == null) {
             toolbar.setSubtitle(getString(R.string.toolbar_enter_subtitle));
+            //Hides the menu as do not want to allow sort/filter when the Enterfragment is in the container
             hideMenus();
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
+            //Sets the animation for the loading of the fragment
             transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right, R.anim.slide_in_left, R.anim.slide_out_right);
             transaction.replace(R.id.fragment_container, new EnterFragment()).commit();
-
         } else {
-            toolbar.setSubtitle(savedInstanceState.getString("toolbarSubtitle"));
-            menuVisible = savedInstanceState.getBoolean("showMenu");
-           /* if (savedInstanceState.getBoolean("showMenu")) {
-                Log.d(TAG, "onCreate: " + savedInstanceState.getBoolean("showMenu"));
-                showMenus();
-            } else {
-                hideMenus();
-            }*/
+            //This is the behaviour when the app is rotated or oncreate it called for some other reason and there is a savedinstancestate.
+            //Gets the toolbar subtitle and a boolean of whether to show the menu from the savedinstancestate object.
+            toolbar.setSubtitle(savedInstanceState.getString(getString(R.string.saved_instance_toolbar_key)));
+            menuVisible = savedInstanceState.getBoolean(getString(R.string.saved_instance_menu_key));
         }
     }
+
+    //This method records the toolbar subtitle and whether the menu is visibile in the bundle so it can be used to restore the
+    //activity to the correct state when the activity is restarted via rotation or another reason
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putString(getString(R.string.saved_instance_toolbar_key), toolbar.getSubtitle().toString());
+        outState.putBoolean(getString(R.string.saved_instance_menu_key), menuVisible);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        Log.d(TAG, "onCreateOptionsMenu: ");
+        myMenu = menu;
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.settings_menu, menu);
+        myMenu.setGroupVisible(R.id.settingsItemsToHide, false);
+        if (menuVisible) {
+            showMenus();
+        } else {
+            hideMenus();
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.sortAndFilterSettings) {
+            //Pass name data here
+            if (myGolfNames != null) {
+                Intent intent = new Intent(this, SettingsActivity.class);
+                intent.putExtra(getString(R.string.settings_names_extra), myGolfNames);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_top, R.anim.slide_out_bottom);
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void hideMenus() {
+        Log.d(TAG, "hideMenus: " + myMenu);
+        if (myMenu != null) {
+            myMenu.setGroupVisible(R.id.settingsItemsToHide, false);
+            menuVisible = false;
+        }
+    }
+    public void showMenus() {
+        Log.d(TAG, "showMenus: " + myMenu);
+        if (myMenu != null) {
+            myMenu.setGroupVisible(R.id.settingsItemsToHide, true);
+            menuVisible = true;
+        }
+    }
+
 
     public void setMyGolfNames(String[] myGolfNames) {
         this.myGolfNames = myGolfNames;
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
 
-    }
 
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putString("toolbarSubtitle", toolbar.getSubtitle().toString());
-        outState.putBoolean("showMenu", menuVisible);
-        super.onSaveInstanceState(outState);
-    }
 
 
     //Inserts the record in the database
@@ -176,54 +198,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         return true;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        Log.d(TAG, "onCreateOptionsMenu: ");
-        myMenu = menu;
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.settings_menu, menu);
-        myMenu.setGroupVisible(R.id.settingsItemsToHide, false);
-        if (menuVisible) {
-            showMenus();
-        } else {
-            hideMenus();
-        }
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.sortAndFilterSettings) {
-            //Pass name data here
-            if (myGolfNames != null) {
-                Intent intent = new Intent(this, SettingsActivity.class);
-
-                intent.putExtra(getString(R.string.settings_names_extra), myGolfNames);
-                startActivity(intent);
-                overridePendingTransition(R.anim.slide_in_top, R.anim.slide_out_bottom);
-            }
-
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    public void hideMenus() {
-        Log.d(TAG, "hideMenus: " + myMenu);
-        if (myMenu != null) {
-            myMenu.setGroupVisible(R.id.settingsItemsToHide, false);
-            menuVisible = false;
-        }
-    }
-    public void showMenus() {
-        Log.d(TAG, "showMenus: " + myMenu);
-        if (myMenu != null) {
-            myMenu.setGroupVisible(R.id.settingsItemsToHide, true);
-            menuVisible = true;
-        }
-    }
 
     @Override
     public void onBackPressed() {

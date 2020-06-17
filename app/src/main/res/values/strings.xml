@@ -27,6 +27,10 @@
     <!--Intent Extras-->
     <string name="settings_names_extra">com.example.android.golfapp.settingsExtra</string>
 
+    <!--Saved instance state keys-->
+    <string name="saved_instance_toolbar_key">toolbarSubtitle</string>
+    <string name="saved_instance_menu_key">showMenu</string>
+
 
     <string-array name="time_filter_array">
         <item>Last 3 months</item>
