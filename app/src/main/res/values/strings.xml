@@ -12,6 +12,18 @@
     <string name="toolbar_list_subtitle">See your results</string>
     <string name="toolbar_stats_subtitle">Check your stats</string>
 
+
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+
+    <!--String values and arrays for preferences-->
+    <string name="preference_player_filter_key">player_filter_preference</string>
+    <string name="preference_time_filter_key">time_filter_preference</string>
+    <string name="preference_sort_key">sort_preference</string>
+    <string name="preference_time_filter_title">Date range</string>
+    <string name="preference_player_filter_title">Select players</string>
+    <string name="preference_sort_title">Sort by</string>
+
     <string-array name="time_filter_array">
         <item>Last 3 months</item>
         <item>Last 6 months</item>
@@ -29,11 +41,6 @@
         <item>Player - alphabetical</item>
         <item>Score</item>
     </string-array>
-    <string name="appwidget_text">EXAMPLE</string>
-    <string name="add_widget">Add widget</string>
 
-    <string name="preference_player_filter_key">player_filter_preference</string>
-    <string name="preference_time_filter_key">time_filter_preference</string>
-    <string name="preference_sort_key">sort_preference</string>
 
 </resources>
