@@ -47,6 +47,15 @@ public class GolfViewModel extends AndroidViewModel {
         });
     }
 
+    public void deleteRecord(final GolfRecord record) {
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                database.golfDao().deleteTask(record);
+            }
+        });
+    }
+
     public LiveData<List<GolfRecord>> getSpecificName(final String n) {
         return database.golfDao().loadPersonRecords(n);
     }
