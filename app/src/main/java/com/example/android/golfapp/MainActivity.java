@@ -95,6 +95,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         super.onSaveInstanceState(outState);
     }
 
+    //This method saves the menu object to a variable in the Activity so it can be accessed to hide or show it later.
+    //The menu's visibility is set to false and is only changed back to be true if the menuVisible variable is true.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         Log.d(TAG, "onCreateOptionsMenu: ");
@@ -110,11 +112,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         return true;
     }
 
+    //If the menu item clicked is the sort/filter one then it opens the SettingsActivity, passing the names of people along with it.
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.sortAndFilterSettings) {
-            //Pass name data here
             if (myGolfNames != null) {
                 Intent intent = new Intent(this, SettingsActivity.class);
                 intent.putExtra(getString(R.string.settings_names_extra), myGolfNames);
@@ -126,6 +128,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         return super.onOptionsItemSelected(item);
     }
 
+    //These two methods are helped methods which either show or hide the menus. When the menus are shown then menuVisible is set to true.
+    //This boolean can then be saved to the SavedInstanceState object and used to show the menu if it needs showing when the activity oncreate is triggered.
     public void hideMenus() {
         Log.d(TAG, "hideMenus: " + myMenu);
         if (myMenu != null) {
