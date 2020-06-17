@@ -15,7 +15,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import com.example.android.golfapp.Data.GolfDatabase;
 import com.example.android.golfapp.Data.GolfRecord;
 import com.example.android.golfapp.Data.GolfViewModel;
 import com.jjoe64.graphview.GraphView;
@@ -149,9 +148,15 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         courseSpinner.setAdapter(spinnerCourseArrayAdapter);
         courseSpinner.setSelection(courseSelection);
     }
+    //Sets the records from the database to the variable
+    public void setRecords(ArrayList<GolfRecord> myRecords) {
+        allRecords = myRecords;
+    }
 
+    //When either of the spinners have a new item selected, this method is triggered
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
+            //Clears the name and course variables and then sets them to the new values
             name = "";
             course = "";
             if (spinner.getSelectedItem() != null) {
@@ -160,90 +165,77 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
             if (spinner.getSelectedItem() != null) {
                 course = courseSpinner.getSelectedItem().toString();
             }
-
-            //name = (String) adapterView.getItemAtPosition(pos);
-
+            //Sets the UI text views to hold the name and course strings
             courseTextView.setText(course);
             nameTextView.setText(name);
-
-
-
-
-        graph.removeAllSeries();
-
-        ArrayList<GolfRecord> playerResults = new ArrayList<>();
-        if (course.equals(getString(R.string.stats_fragment_all_courses))) {
-            for (GolfRecord g : allRecords) {
-                if (g.getName().equals(name)) {
-                    playerResults.add(g);
+            //Clears any existing series from the graph
+            graph.removeAllSeries();
+            //Filters the golfers records according to the course selected. If all courses is selected then it just returns all that golfers records in an ArrayList
+            ArrayList<GolfRecord> playerResults = new ArrayList<>();
+            if (course.equals(getString(R.string.stats_fragment_all_courses))) {
+                for (GolfRecord g : allRecords) {
+                    if (g.getName().equals(name)) {
+                        playerResults.add(g);
+                    }
                 }
-            }
-        } else {
-            for (GolfRecord g : allRecords) {
-                if (g.getName().equals(name) && g.getCourse().equals(course)) {
-                    playerResults.add(g);
-                }
-            }
-        }
-
-        Collections.sort(playerResults, new GolfRecord.DateComparator());
-        int size = 5;
-        if (playerResults.size() < 5) {
-            size = playerResults.size();
-        }
-        String lastFiveResult = "";
-        for (int i = 0; i < size; i++) {
-            if (i == 0) {
-                lastFiveResult = lastFiveResult + playerResults.get(i).getScore();
             } else {
-                lastFiveResult = lastFiveResult + ", " + playerResults.get(i).getScore();
+                for (GolfRecord g : allRecords) {
+                    if (g.getName().equals(name) && g.getCourse().equals(course)) {
+                        playerResults.add(g);
+                    }
+                }
             }
-        }
-        recentRoundsTextView.setText(lastFiveResult);
-        //reverse for the graph
-        Collections.reverse(playerResults);
-
-
-        ArrayList<Integer> rollingAverage;
-        rollingAverage = getRollingAverage(playerResults);
-
-        DataPoint[] myDataPoints = new DataPoint[rollingAverage.size()];
-
-        for (int i = 0; i < rollingAverage.size(); i++) {
-            DataPoint dp = new DataPoint(i, rollingAverage.get(i));
-            myDataPoints[i] = dp;
-        }
-        for (DataPoint d : myDataPoints) {
-            Log.d(TAG, "onItemSelected: " + d);
-        }
-
-
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(myDataPoints);
-        Viewport viewport = graph.getViewport();
-        viewport.setYAxisBoundsManual(true);
-        viewport.setXAxisBoundsManual(true);
-        /*viewport.setMaxXAxisSize(series.getHighestValueX());
-        viewport.setMaxYAxisSize(series.getHighestValueY());*/
-       viewport.setMaxX(series.getHighestValueX());
-       viewport.setMaxY(series.getHighestValueY() + 10);
-       viewport.setMinY(series.getLowestValueY() - 10);
-
-        GridLabelRenderer gridLabel = graph.getGridLabelRenderer();
-        gridLabel.setHorizontalAxisTitle("Least recent to most recent");
-        //gridLabel.setVerticalAxisTitle("Average score");
-        gridLabel.setHorizontalLabelsVisible(false);
-
-
-        graph.addSeries(series);
-
-
-
-        //Put code here to populate the UI from the database
+            //The arraylist is sorted by date to have the most recent first
+            Collections.sort(playerResults, new GolfRecord.DateComparator());
+            //To get the last 5 rounds of the golfer create an int assigned to 5. This is reset to be lower if there are not 5 records in the arraylist
+            int size = 5;
+            if (playerResults.size() < 5) {
+                size = playerResults.size();
+            }
+            //Sets the last 5 results, or less if there are not 5 (which the code knows because of the size variable above).
+            //This code sets these 5 results to the text view and displays them
+            String lastFiveResult = "";
+            for (int i = 0; i < size; i++) {
+                if (i == 0) {
+                    lastFiveResult = lastFiveResult + playerResults.get(i).getScore();
+                } else {
+                    lastFiveResult = lastFiveResult + ", " + playerResults.get(i).getScore();
+                }
+            }
+            recentRoundsTextView.setText(lastFiveResult);
+            //Reverse the collection for the graph as want them in the order least recent to most recent to make the plot make more sense
+            Collections.reverse(playerResults);
+            //Calculates the rolling average dataset to use on the graph
+            ArrayList<Integer> rollingAverage;
+            rollingAverage = getRollingAverage(playerResults);
+            //Creates the data points
+            DataPoint[] myDataPoints = new DataPoint[rollingAverage.size()];
+            for (int i = 0; i < rollingAverage.size(); i++) {
+                DataPoint dp = new DataPoint(i, rollingAverage.get(i));
+                myDataPoints[i] = dp;
+            }
+            //Creates a series from the datapoints
+            LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(myDataPoints);
+            //Sets the scales to the graph based on the values in the series
+            Viewport viewport = graph.getViewport();
+            viewport.setYAxisBoundsManual(true);
+            viewport.setXAxisBoundsManual(true);
+            viewport.setMaxX(series.getHighestValueX());
+            viewport.setMaxY(series.getHighestValueY() + 10);
+            viewport.setMinY(series.getLowestValueY() - 10);
+            //Sets the x axis to have a title but disables the labels as it just represents least recent to most recent golf rounds
+            GridLabelRenderer gridLabel = graph.getGridLabelRenderer();
+            gridLabel.setHorizontalAxisTitle("Least recent to most recent");
+            gridLabel.setHorizontalLabelsVisible(false);
+            //Adds the series to the graph
+            graph.addSeries(series);
     }
 
+    //Helper method which returns an arraylist of rolling averages which can then be plotted on the graph.
+    //Each rolling average integer put into the arraylist is simply the average of the last 3 rounds.
+    //If there were 2 or fewer rounds then the rolling average is just the average of these 1 or 2 instead
     public ArrayList<Integer> getRollingAverage(ArrayList<GolfRecord> theRecords) {
         ArrayList<Integer> result = new ArrayList<>();
-
         for (int i = 0; i < theRecords.size(); i++) {
             if (i == 0) {
                 result.add(theRecords.get(i).getScore());
@@ -274,12 +266,5 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
             throw new RuntimeException(context.toString()
                     + " must implement EnterFragmentListener");
         }
-
     }
-
-    public void setRecords(ArrayList<GolfRecord> myRecords) {
-        allRecords = myRecords;
-    }
-
-
 }
