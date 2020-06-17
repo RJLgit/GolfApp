@@ -14,10 +14,12 @@ import androidx.fragment.app.DialogFragment;
 public class DatePickerFragment extends DialogFragment {
     private static final String TAG = "DatePickerFragment";
     private EnterFragment fragment;
+    //Constructor gets sent the EnterFragment object in which the datapicker is launched
     public DatePickerFragment(EnterFragment enterFragment) {
         fragment = enterFragment;
     }
 
+    //The EnterFragment variable is used to create the DatePickerDialog, it is the listener to the dialog.
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
