@@ -2,7 +2,6 @@ package com.example.android.golfapp;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -15,8 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.example.android.golfapp.Data.AppExecutors;
-import com.example.android.golfapp.Data.GolfDatabase;
+
 import com.example.android.golfapp.Data.GolfRecord;
 import com.example.android.golfapp.Data.GolfViewModel;
 import com.google.android.material.snackbar.Snackbar;
@@ -30,7 +28,7 @@ public class ListFragment extends Fragment implements SharedPreferences.OnShared
 
 
     RecyclerView myRecyclerView;
-    
+
     GolfRecord deletedItem = null;
 
     GolfAdapter adapter;
@@ -67,22 +65,17 @@ public class ListFragment extends Fragment implements SharedPreferences.OnShared
             public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
 
                 // Here is where you'll implement swipe to delete
-                AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        int position = viewHolder.getAdapterPosition();
-                        List<GolfRecord> records = adapter.getmData();
-                        deletedItem = records.get(position);
-                        viewModel.deleteRecord(deletedItem);
-                        Snackbar.make(viewHolder.itemView, "Removed item", Snackbar.LENGTH_LONG)
-                                .setAction("Undo", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        viewModel.insertRecord(deletedItem);
-                                    }
-                                }).show();
-                    }
-                });
+                int position = viewHolder.getAdapterPosition();
+                List<GolfRecord> records = adapter.getmData();
+                deletedItem = records.get(position);
+                viewModel.deleteRecord(deletedItem);
+                Snackbar.make(viewHolder.itemView, "Removed item", Snackbar.LENGTH_LONG)
+                        .setAction("Undo", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                viewModel.insertRecord(deletedItem);
+                            }
+                        }).show();
             }
         }).attachToRecyclerView(myRecyclerView);
 
