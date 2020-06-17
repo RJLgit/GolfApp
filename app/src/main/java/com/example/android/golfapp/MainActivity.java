@@ -14,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
-import com.example.android.golfapp.Data.GolfDatabase;
 import com.example.android.golfapp.Data.GolfRecord;
 import com.example.android.golfapp.Data.GolfViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -86,6 +85,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
     }
 
+    //Setter for the golf names
+    public void setMyGolfNames(String[] myGolfNames) {
+        this.myGolfNames = myGolfNames;
+    }
+
     //This method records the toolbar subtitle and whether the menu is visibile in the bundle so it can be used to restore the
     //activity to the correct state when the activity is restarted via rotation or another reason
     @Override
@@ -145,16 +149,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
     }
 
-
-    public void setMyGolfNames(String[] myGolfNames) {
-        this.myGolfNames = myGolfNames;
-    }
-
-
-
-
-
-    //Inserts the record in the database
+    //Inserts the golf record into the database by using the viewmodel class
     @Override
     public void onRecordSent(String name, String course, int par, int score, Date date) {
         Log.d(TAG, "onRecordSent: " + "name: " + name + ". Course: " + course + ". Par: " + par
@@ -164,6 +159,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         viewModel.insertRecord(golfRecord);
     }
 
+    //Callback method for when navbar options are selected. In each case it sets the toolbar subtitle puts the correct fragment in the container.
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -173,25 +169,25 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 toolbar.setSubtitle(getString(R.string.toolbar_enter_subtitle));
                 transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_right, R.anim.slide_out_left);
                 transaction.replace(R.id.fragment_container, new EnterFragment()).commit();
-                //hideMenus();
+                //Previous fragment variable is set to a value indicating the current fragment in the container. Using this value
+                //we can then carry out the correct animations for when we want to load a new fragment to provide a consistent flow for the user
                 previousFragment = 0;
                 break;
             case R.id.nav_list:
                 toolbar.setSubtitle(getString(R.string.toolbar_list_subtitle));
+                //If the previous fragment was an enter fragment (i.e. previousfragment was 0) then a different animation is used than if it was a stats fragment.
                 if (previousFragment == 0) {
                     transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right, R.anim.slide_in_left, R.anim.slide_out_right);
                 } else {
                     transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_right, R.anim.slide_out_left);
                 }
                 transaction.replace(R.id.fragment_container, new ListFragment()).commit();
-                //showMenus();
                 previousFragment = 1;
                 break;
             case R.id.nav_stats:
                 toolbar.setSubtitle(getString(R.string.toolbar_stats_subtitle));
                 transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right, R.anim.slide_in_left, R.anim.slide_out_right);
                 transaction.replace(R.id.fragment_container, new StatsFragment()).commit();
-                //hideMenus();
                 previousFragment = 2;
                 break;
             default:
@@ -202,13 +198,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         return true;
     }
 
-
-
+    //When back is pressed then it checks whether the firstdividerview exists. If it does not exist
+    //then this means the enter fragment is NOT in the container. Which menas, when back is pressed
+    //we load the enter fragment by forcing a press on the enter results bottom nav bar option.
+    //Otherwise the super method is called for when enter fragment is the fragment in the container.
     @Override
     public void onBackPressed() {
-
         if (findViewById(R.id.firstDividerView) == null) {
-            //onNavigationItemSelected(bottomNavigationView.getMenu().getItem(0));
             bottomNavigationView.setSelectedItemId(bottomNavigationView.getMenu().getItem(0).getItemId());
         } else {
             super.onBackPressed();
