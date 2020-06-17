@@ -70,82 +70,59 @@ public class GolfAdapter extends RecyclerView.Adapter<GolfAdapter.GolfViewHolder
         notifyDataSetChanged();
     }
 
-    public void updateFilteredData(List<GolfRecord> mData) {
-        mFilteredData = mData;
-        notifyDataSetChanged();
-    }
-
     //This method is also called from the ListFragment. When the shared preferences change then the data is filtered/sorted according to these preferences
     //The first parameter is the filter by dates. The second if the filter by name, which is a set of names to include in the recyclerview
     //The third is the sort string to tell the adapter how to sort the data.
     public void filterData(String s, Set<String> x, String sort) {
         if (s.equals(mContext.getString(R.string.adapter_filter_all_rounds))) {
-            ArrayList<GolfRecord> filtered = new ArrayList<>();
-            for (GolfRecord g : mUnFilteredData) {
-                    filtered.add(g);
-            }
             ArrayList<GolfRecord> secondFiltered = new ArrayList<>();
-            for (GolfRecord g2 : filtered) {
-                String name = g2.getName();
-                if (x != null && x.contains(name)) {
-                    secondFiltered.add(g2);
-                }
-            }
+            ArrayList<GolfRecord> myUnfilteredListAsArray = new ArrayList<>(mUnFilteredData);
+            secondFiltered = filterGolfRecordsName(x, myUnfilteredListAsArray);
             sortData(sort, secondFiltered);
             updateFilteredData(secondFiltered);
         } else if (s.equals(mContext.getString(R.string.adapter_filter_last_6_months))) {
-            Log.d(TAG, "filterData: 6");
-            ArrayList<GolfRecord> filtered = new ArrayList<>();
-            Date currentDate = new Date();
-            LocalDate currentLocalDate = currentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            Log.d(TAG, "filterDates: " + currentLocalDate);
-            for (GolfRecord g : mUnFilteredData) {
-                Date recordDate = g.getDate();
-                LocalDate currentRecordDate = recordDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                Log.d(TAG, "filterDates: " + currentRecordDate);
-                Period period = Period.between(currentLocalDate, currentRecordDate);
-                Log.d(TAG, "filterDates: " + period);
-                if (period.getYears() == 0 && period.getMonths() > -6 ) {
-                    filtered.add(g);
-                }
-            }
             ArrayList<GolfRecord> secondFiltered = new ArrayList<>();
-            for (GolfRecord g2 : filtered) {
-                String name = g2.getName();
-                if (x != null && x.contains(name)) {
-                    secondFiltered.add(g2);
-                }
-            }
+            secondFiltered = filterGolfRecordsName(x, filterGolfRecordsDate(-6));
             sortData(sort, secondFiltered);
             updateFilteredData(secondFiltered);
-            Log.d(TAG, "filterData: " + filtered);
             Log.d(TAG, "filterDates: " + mUnFilteredData);
         } else if (s.equals(mContext.getString(R.string.adapter_filter_last_3_months))) {
-            Log.d(TAG, "filterData: 3");
-            ArrayList<GolfRecord> filtered = new ArrayList<>();
-            Date currentDate = new Date();
-            LocalDate currentLocalDate = currentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            for (GolfRecord g : mUnFilteredData) {
-                Date recordDate = g.getDate();
-                LocalDate currentRecordDate = recordDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                Period period = Period.between(currentLocalDate, currentRecordDate);
-                if (period.getYears() == 0 && period.getMonths() > -3) {
-                    filtered.add(g);
-                }
-            }
             ArrayList<GolfRecord> secondFiltered = new ArrayList<>();
-            for (GolfRecord g2 : filtered) {
-                String name = g2.getName();
-                if (x != null && x.contains(name)) {
-                    secondFiltered.add(g2);
-                }
-            }
+            secondFiltered = filterGolfRecordsName(x, filterGolfRecordsDate(-3));
             sortData(sort, secondFiltered);
             updateFilteredData(secondFiltered);
-            Log.d(TAG, "filterData: " + filtered);
         }
     }
+    //Helper method to filter by date
+    private ArrayList<GolfRecord> filterGolfRecordsDate(int dateMonths) {
+        ArrayList<GolfRecord> filtered = new ArrayList<>();
+        Date currentDate = new Date();
+        LocalDate currentLocalDate = currentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        for (GolfRecord g : mUnFilteredData) {
+            Date recordDate = g.getDate();
+            LocalDate currentRecordDate = recordDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            Log.d(TAG, "filterDates: " + currentRecordDate);
+            Period period = Period.between(currentLocalDate, currentRecordDate);
+            Log.d(TAG, "filterDates: " + period);
+            if (period.getYears() == 0 && period.getMonths() > dateMonths ) {
+                filtered.add(g);
+            }
+        }
+        return filtered;
+    }
+    //Helper method to filter by name
+    private ArrayList<GolfRecord> filterGolfRecordsName(Set<String> names, ArrayList<GolfRecord> filtered) {
+        ArrayList<GolfRecord> secondFiltered = new ArrayList<>();
+        for (GolfRecord g2 : filtered) {
+            String name = g2.getName();
+            if (names != null && names.contains(name)) {
+                secondFiltered.add(g2);
+            }
+        }
+        return secondFiltered;
+    }
 
+    //The data is sorted using the Comparators defined int he GolfRecord class This is done before the variable holding the filtered data is updated, so it will always be sorted correctly
     public void sortData(String s, ArrayList<GolfRecord> arrayList) {
         if (s.equals("Most recent")) {
             Collections.sort(arrayList, new GolfRecord.DateComparator());
@@ -154,6 +131,12 @@ public class GolfAdapter extends RecyclerView.Adapter<GolfAdapter.GolfViewHolder
         } if (s.equals("Score")) {
             Collections.sort(arrayList, new GolfRecord.ScoreComparator());
         }
+    }
+
+    //The filtered data variable is updated once it has been filtered and sorted
+    public void updateFilteredData(List<GolfRecord> mData) {
+        mFilteredData = mData;
+        notifyDataSetChanged();
     }
 
     public List<GolfRecord> getmData() {
