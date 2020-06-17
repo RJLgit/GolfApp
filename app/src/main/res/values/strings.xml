@@ -11,7 +11,7 @@
     <string name="toolbar_enter_subtitle">Enter your result</string>
     <string name="toolbar_list_subtitle">See your results</string>
     <string name="toolbar_stats_subtitle">Check your stats</string>
-
+    <string name="toolbar_settings_subtitle">Change which data to see</string>
 
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
@@ -23,6 +23,10 @@
     <string name="preference_time_filter_title">Date range</string>
     <string name="preference_player_filter_title">Select players</string>
     <string name="preference_sort_title">Sort by</string>
+
+    <!--Intent Extras-->
+    <string name="settings_names_extra">com.example.android.golfapp.settingsExtra</string>
+
 
     <string-array name="time_filter_array">
         <item>Last 3 months</item>
