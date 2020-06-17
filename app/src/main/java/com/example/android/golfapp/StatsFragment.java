@@ -126,10 +126,32 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         outState.putInt(getString(R.string.stats_fragment_saved_instance_courses_array_key), courseSpinner.getSelectedItemPosition());
         super.onSaveInstanceState(outState);
     }
+    //Sets the names from the database to the myNames variable. Only then does it set the adapter to the spinner with this data in it.
+    //Sets the selection to nameSelection which defaults to 0 (first value) unless there is a savedinstancestate value.
+    public void setNames(String[] arr) {
+        myNames = arr;
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, myNames);
+        spinner.setAdapter(spinnerArrayAdapter);
+        spinner.setSelection(nameSelection);
+    }
+
+    //Sets the courses from the database to the myCourses variable. Only then does it set the adapter to the spinner with this data in it.
+    //Sets the selection to courseSelection which defaults to 0 (first value) unless there is a savedinstancestate value.
+    //The value "All courses" is set to the start of this array as this is not in the database but should be the default behaviour
+    public void setMyCourses(String[] myParamCourses) {
+        String[] newStringArray = new String[myParamCourses.length + 1];
+        newStringArray[0] = getString(R.string.stats_fragment_all_courses);
+        for (int i = 0; i < myParamCourses.length; i++) {
+            newStringArray[i + 1] = myParamCourses[i];
+        }
+        this.myCourses = newStringArray;
+        ArrayAdapter<String> spinnerCourseArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, myCourses);
+        courseSpinner.setAdapter(spinnerCourseArrayAdapter);
+        courseSpinner.setSelection(courseSelection);
+    }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
-
             name = "";
             course = "";
             if (spinner.getSelectedItem() != null) {
@@ -150,7 +172,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         graph.removeAllSeries();
 
         ArrayList<GolfRecord> playerResults = new ArrayList<>();
-        if (course.equals("All Courses")) {
+        if (course.equals(getString(R.string.stats_fragment_all_courses))) {
             for (GolfRecord g : allRecords) {
                 if (g.getName().equals(name)) {
                     playerResults.add(g);
@@ -233,31 +255,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         }
         Log.d(TAG, "getRollingAverage: " + result);
         return result;
-
-
-
-   /*     ArrayList<Integer> result = new ArrayList<>();
-        for (int i = 0; i < theRecords.size(); i++) {
-            int rollingAverageSum = 0;
-            for (int j = i; j > i - 3 && j > 0; j--) {
-                rollingAverageSum = rollingAverageSum + theRecords.get(j).getScore();
-            }
-            int averageScore;
-            if (i == 0) {
-                averageScore = rollingAverageSum / 1;
-            } else if (i == 1) {
-                averageScore = rollingAverageSum / 2;
-            } else {
-                averageScore = rollingAverageSum / 3;
-            }
-
-
-            result.add(averageScore);
-        }
-        Log.d(TAG, "getRollingAverage: " + result);
-        return result;*/
     }
-
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
@@ -283,22 +281,5 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         allRecords = myRecords;
     }
 
-    public void setNames(String[] arr) {
-            myNames = arr;
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, myNames);
-        spinner.setAdapter(spinnerArrayAdapter);
-        spinner.setSelection(nameSelection);
-    }
 
-    public void setMyCourses(String[] myParamCourses) {
-        String[] newStringArray = new String[myParamCourses.length + 1];
-        newStringArray[0] = "All Courses";
-        for (int i = 0; i < myParamCourses.length; i++) {
-            newStringArray[i + 1] = myParamCourses[i];
-        }
-        this.myCourses = newStringArray;
-        ArrayAdapter<String> spinnerCourseArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, myCourses);
-        courseSpinner.setAdapter(spinnerCourseArrayAdapter);
-        courseSpinner.setSelection(courseSelection);
-    }
 }

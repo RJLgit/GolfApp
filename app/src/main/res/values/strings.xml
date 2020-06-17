@@ -73,6 +73,7 @@
     <string name="stats_fragment_saved_instance_records_key">recordsList</string>
     <string name="stats_fragment_saved_instance_names_array_key">namesArraySelection</string>
     <string name="stats_fragment_saved_instance_courses_array_key">coursesArraySelection</string>
+    <string name="stats_fragment_all_courses">All Courses</string>
 
 
 </resources>
