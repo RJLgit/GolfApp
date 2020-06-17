@@ -67,5 +67,12 @@
     <string name="adapter_viewholder_par">Par of: %d</string>
     <string name="adapter_viewholder_score">Scored: %d</string>
 
+    S<!--tats fragment strings-->
+    <string name="stats_fragment_saved_instance_names_key">namesArray</string>
+    <string name="stats_fragment_saved_instance_courses_key">coursesArray</string>
+    <string name="stats_fragment_saved_instance_records_key">recordsList</string>
+    <string name="stats_fragment_saved_instance_names_array_key">namesArraySelection</string>
+    <string name="stats_fragment_saved_instance_courses_array_key">coursesArraySelection</string>
+
 
 </resources>

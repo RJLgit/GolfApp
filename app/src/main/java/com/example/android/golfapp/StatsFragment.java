@@ -56,12 +56,13 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     public StatsFragment() {
         // Required empty public constructor
     }
-    
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_stats, container, false);
+        //Assigns the UI elements to the variables
         spinner = v.findViewById(R.id.stats_spinner);
         spinner.setOnItemSelectedListener(this);
         courseSpinner = v.findViewById(R.id.stats_course_spinner);
@@ -70,19 +71,17 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         recentRoundsTextView = v.findViewById(R.id.recent_rounds_textView);
         courseTextView = v.findViewById(R.id.courseTextView);
         graph = v.findViewById(R.id.graph);
-        Log.d(TAG, "onCreateView: " + myNames);
-        //Log.d(TAG, "onCreateView: " + mContext);
-
+        //If the savedInstanceState is not null then it loads the previous state of the fragment
         if (savedInstanceState != null) {
             Log.d(TAG, "onCreateView: " + "not null");
-            myNames = savedInstanceState.getStringArray("namesArray");
-            myCourses = savedInstanceState.getStringArray("coursesArray");
-            allRecords = (ArrayList<GolfRecord>) savedInstanceState.getSerializable("recordsList");
-            Log.d(TAG, "onCreateView: " + savedInstanceState.getInt("namesArraySelection"));
-            nameSelection = savedInstanceState.getInt("namesArraySelection", 0);
-            courseSelection = savedInstanceState.getInt("coursesArraySelection", 0);
-
+            myNames = savedInstanceState.getStringArray(getString(R.string.stats_fragment_saved_instance_names_key));
+            myCourses = savedInstanceState.getStringArray(getString(R.string.stats_fragment_saved_instance_courses_key));
+            allRecords = (ArrayList<GolfRecord>) savedInstanceState.getSerializable(getString(R.string.stats_fragment_saved_instance_records_key));
+            nameSelection = savedInstanceState.getInt(getString(R.string.stats_fragment_saved_instance_names_array_key), 0);
+            courseSelection = savedInstanceState.getInt(getString(R.string.stats_fragment_saved_instance_courses_array_key), 0);
         }
+        //The viewmodel class is used to get the data in the database. This fragment needs the whole list of records.
+        //And it needs all the unique names and the courses in the database.
         GolfViewModel viewModel = new ViewModelProvider(requireActivity()).get(GolfViewModel.class);
         viewModel.getRecords().observe(getViewLifecycleOwner(), new Observer<List<GolfRecord>>() {
             @Override
@@ -92,7 +91,6 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
                 setRecords(myRecords);
             }
         });
-
         viewModel.getNames().observe(getViewLifecycleOwner(), new Observer<List<String>>() {
             @Override
             public void onChanged(List<String> golfNames) {
@@ -112,24 +110,20 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
             }
         });
 
-
-
-
-
-
-
         return v;
     }
 
-
-
+    //The onSaveInstanceState method saves the state of the fragment here.
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putStringArray("namesArray", myNames);
-        outState.putStringArray("coursesArray", myCourses);
-        outState.putSerializable("recordsList", allRecords);
-        outState.putInt("namesArraySelection", spinner.getSelectedItemPosition());
-        outState.putInt("coursesArraySelection", courseSpinner.getSelectedItemPosition());
+        //The names and courses to populate the spinner
+        outState.putStringArray(getString(R.string.stats_fragment_saved_instance_names_key), myNames);
+        outState.putStringArray(getString(R.string.stats_fragment_saved_instance_courses_key), myCourses);
+        //The golf records in the database
+        outState.putSerializable(getString(R.string.stats_fragment_saved_instance_records_key), allRecords);
+        //Gets the current selection of the two spinners
+        outState.putInt(getString(R.string.stats_fragment_saved_instance_names_array_key), spinner.getSelectedItemPosition());
+        outState.putInt(getString(R.string.stats_fragment_saved_instance_courses_array_key), courseSpinner.getSelectedItemPosition());
         super.onSaveInstanceState(outState);
     }
 
