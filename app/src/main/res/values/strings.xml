@@ -32,4 +32,8 @@
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
 
+    <string name="preference_player_filter_key">player_filter_preference</string>
+    <string name="preference_time_filter_key">time_filter_preference</string>
+    <string name="preference_sort_key">sort_preference</string>
+
 </resources>

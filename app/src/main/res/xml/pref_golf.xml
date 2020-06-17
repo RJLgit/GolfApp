@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <ListPreference
-        android:key="time_filter_preference"
+        android:key="@string/preference_time_filter_key"
         android:title="Date range"
         android:entries="@array/time_filter_array"
         android:entryValues="@array/time_filter_array"
@@ -11,14 +11,14 @@
         />
 
         <MultiSelectListPreference
-            android:key="player_filter_preference"
+            android:key="@string/preference_player_filter_key"
             android:title="Select players"
             android:entries="@array/player_filter_array"
             android:entryValues="@array/player_filter_array"
              />
 
     <ListPreference
-        android:key="sort_preference"
+        android:key="@string/preference_sort_key"
         android:title="Sort by"
         android:entries="@array/sort_array"
         android:entryValues="@array/sort_array"
