@@ -143,6 +143,7 @@ public class GolfAdapter extends RecyclerView.Adapter<GolfAdapter.GolfViewHolder
         return mFilteredData;
     }
 
+    //Viewholder class which has the UI elements to be populated
     class GolfViewHolder extends RecyclerView.ViewHolder {
         TextView dateTextView;
         TextView nameTextView;
