@@ -134,6 +134,8 @@ public class ListFragment extends Fragment implements SharedPreferences.OnShared
 
         return v;
     }
+    //When the fragment is attached to the activity then the context is checked to make sure it is of type MainActivity.
+    //If it is then the context is cast into MainActivity and showMenus() is called on it to show the menu item as sort/filter is required in this fragment.
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

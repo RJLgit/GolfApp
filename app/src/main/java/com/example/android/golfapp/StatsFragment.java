@@ -279,6 +279,8 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
 
     }
 
+    //When the fragment is attached to the activity then the context is checked to make sure it is of type MainActivity.
+    //If it is then the context is cast into MainActivity and hidemenus() is called on it to hide the menu item as sort/filter is not required in this fragment.
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

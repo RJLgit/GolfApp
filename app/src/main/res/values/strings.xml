@@ -24,14 +24,6 @@
     <string name="preference_player_filter_title">Select players</string>
     <string name="preference_sort_title">Sort by</string>
 
-    <!--Intent Extras-->
-    <string name="settings_names_extra">com.example.android.golfapp.settingsExtra</string>
-
-    <!--Saved instance state keys-->
-    <string name="saved_instance_toolbar_key">toolbarSubtitle</string>
-    <string name="saved_instance_menu_key">showMenu</string>
-
-
     <string-array name="time_filter_array">
         <item>Last 3 months</item>
         <item>Last 6 months</item>
@@ -49,6 +41,19 @@
         <item>Player - alphabetical</item>
         <item>Score</item>
     </string-array>
+
+    <!--Intent Extras-->
+    <string name="settings_names_extra">com.example.android.golfapp.settingsExtra</string>
+
+    <!--Saved instance state keys-->
+    <string name="saved_instance_toolbar_key">toolbarSubtitle</string>
+    <string name="saved_instance_menu_key">showMenu</string>
+
+    <!--Enter fragment strings-->
+    <string name="date_picker_tag">date picker</string>
+    <string name="toast_message_name_course_empty">Must enter a valid course and name</string>
+    <string name="toast_message_no_number_par_score">Must enter a number for both the par and score</string>
+    <string name="toast_no_valid_date">Must enter a valid date in the form dd/mm/yyyy</string>
 
 
 </resources>
