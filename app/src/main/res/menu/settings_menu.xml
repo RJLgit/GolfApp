@@ -5,6 +5,6 @@
         <item
             android:id="@+id/sortAndFilterSettings"
             app:showAsAction="ifRoom"
-            android:title="Sort/Filter" />
+            android:title="@string/settings_menu_title" />
     </group>
 </menu>

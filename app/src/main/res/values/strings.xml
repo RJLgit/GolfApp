@@ -13,9 +13,6 @@
     <string name="toolbar_stats_subtitle">Check your stats</string>
     <string name="toolbar_settings_subtitle">Change which data to see</string>
 
-    <string name="appwidget_text">EXAMPLE</string>
-    <string name="add_widget">Add widget</string>
-
     <!--String values and arrays for preferences-->
     <string name="preference_player_filter_key">player_filter_preference</string>
     <string name="preference_time_filter_key">time_filter_preference</string>
@@ -67,13 +64,34 @@
     <string name="adapter_viewholder_par">Par of: %d</string>
     <string name="adapter_viewholder_score">Scored: %d</string>
 
-    S<!--tats fragment strings-->
+    <!--Stats fragment strings-->
     <string name="stats_fragment_saved_instance_names_key">namesArray</string>
     <string name="stats_fragment_saved_instance_courses_key">coursesArray</string>
     <string name="stats_fragment_saved_instance_records_key">recordsList</string>
     <string name="stats_fragment_saved_instance_names_array_key">namesArraySelection</string>
     <string name="stats_fragment_saved_instance_courses_array_key">coursesArraySelection</string>
     <string name="stats_fragment_all_courses">All Courses</string>
+    <!--Layout files strings-->
+
+    <!--Settings and menu layout strings-->
+    <string name="settings_menu_title">Sort/Filter</string>
+    <!--Widget layout strings-->
+    <string name="widget_image_content_description">Widget Image</string>
+    <!--Stats fragment layout strings-->
+    <string name="stats_fragment_course_spinner_label_text">Select Course:</string>
+    <string name="stats_fragment_name_spinner_label_text">Select Player:</string>
+    <string name="stats_fragment_recent_rounds_label_text">Last 5 rounds:</string>
+    <string name="stats_fragment_graph_title_text">Average score over time - 3 round rolling average</string>
+    <!--Enter fragment layout strings-->
+    <string name="enter_fragment_name_label_text">Enter player name</string>
+    <string name="enter_fragment_name_hint_text">Enter Name</string>
+    <string name="enter_fragment_course_label_text">Enter course name</string>
+    <string name="enter_fragment_course_hint_text">Enter course</string>
+    <string name="enter_fragment_score_label_text">Enter Score</string>
+    <string name="enter_fragment_par_label_text">Enter Par</string>
+    <string name="enter_fragment_date_label_text">Select Date</string>
+    <string name="enter_fragment_date_hint_text">Enter date</string>
+    <string name="enter_fragment_button_text">Enter record</string>
 
 
 </resources>

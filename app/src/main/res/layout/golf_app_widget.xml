@@ -13,7 +13,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="2dp"
         android:src="@drawable/ic_golf_widget"
-        android:contentDescription="Widget Image"/>
+        android:contentDescription="@string/widget_image_content_description"/>
 
 
     <TextView
