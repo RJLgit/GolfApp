@@ -25,13 +25,14 @@ import java.util.List;
  */
 public class ListFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "ListFragment";
-
-
+    //RecyclerView variables
     RecyclerView myRecyclerView;
+    GolfAdapter adapter;
 
+    //Variable to hold golf records when swiped
     GolfRecord deletedItem = null;
 
-    GolfAdapter adapter;
+    //Shared preferences object
     SharedPreferences sharedPreferences;
 
     public ListFragment() {
@@ -43,17 +44,17 @@ public class ListFragment extends Fragment implements SharedPreferences.OnShared
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_list, container, false);
-
+        //Creates the shared preferences object and assigns the listener, which is this fragment as it implements the OnSharedPreferenceChangeListener interface
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+        //Creates the RV and adapter
         myRecyclerView = v.findViewById(R.id.recyclerview);
         myRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
         adapter = new GolfAdapter(getContext());
         myRecyclerView.setAdapter(adapter);
-
+        //Obtains a GolfViewModel to interact with the database
         final GolfViewModel viewModel = new ViewModelProvider(requireActivity()).get(GolfViewModel.class);
-
+        //An ontouch listener which is attached to the recyclerview
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
@@ -63,12 +64,12 @@ public class ListFragment extends Fragment implements SharedPreferences.OnShared
             // Called when a user swipes left or right on a ViewHolder
             @Override
             public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
-
-                // Here is where you'll implement swipe to delete
+                // Deletes the golf record when swiped
                 int position = viewHolder.getAdapterPosition();
                 List<GolfRecord> records = adapter.getmData();
                 deletedItem = records.get(position);
                 viewModel.deleteRecord(deletedItem);
+                //Pops up snackbar which allows the user to undo the deletion and add the record back to the database
                 Snackbar.make(viewHolder.itemView, "Removed item", Snackbar.LENGTH_LONG)
                         .setAction("Undo", new View.OnClickListener() {
                             @Override
@@ -79,13 +80,14 @@ public class ListFragment extends Fragment implements SharedPreferences.OnShared
             }
         }).attachToRecyclerView(myRecyclerView);
 
+        //Viewmodel obtains the GolfRecord objects held in the database and sends them to the adapter for the RV
         viewModel.getRecords().observe(getViewLifecycleOwner(), new Observer<List<GolfRecord>>() {
             @Override
             public void onChanged(List<GolfRecord> golfRecords) {
                 Log.d(TAG, "onChanged: " + "updates from view model");
                 adapter.setmData(golfRecords);
-                adapter.filterData(sharedPreferences.getString("time_filter_preference", "All rounds"), sharedPreferences.getStringSet("player_filter_preference", null),
-                        sharedPreferences.getString("sort_preference", "Most recent"));
+                adapter.filterData(sharedPreferences.getString(getString(R.string.preference_time_filter_key), "All rounds"), sharedPreferences.getStringSet(getString(R.string.preference_player_filter_key), null),
+                        sharedPreferences.getString(getString(R.string.preference_sort_key), "Most recent"));
             }
         });
 
@@ -106,22 +108,14 @@ public class ListFragment extends Fragment implements SharedPreferences.OnShared
         }
     }
 
+    //When shared preferences change then the adapter is sent the new preferences dictating how to filter and sort the recyclerview items
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals("time_filter_preference")) {
-            adapter.filterData(sharedPreferences.getString("time_filter_preference", "All rounds"), sharedPreferences.getStringSet("player_filter_preference", null)
-                    , sharedPreferences.getString("sort_preference", "Most recent"));
-        }
-        if (key.equals("player_filter_preference")) {
-            adapter.filterData(sharedPreferences.getString("time_filter_preference", "All rounds"), sharedPreferences.getStringSet("player_filter_preference", null)
-                    , sharedPreferences.getString("sort_preference", "Most recent"));
-        }
-        if (key.equals("sort_preference")) {
-            adapter.filterData(sharedPreferences.getString("time_filter_preference", "All rounds"), sharedPreferences.getStringSet("player_filter_preference", null)
-                    , sharedPreferences.getString("sort_preference", "Most recent"));
-        }
+            adapter.filterData(sharedPreferences.getString(getString(R.string.preference_time_filter_key), "All rounds"), sharedPreferences.getStringSet(getString(R.string.preference_player_filter_key), null)
+                    , sharedPreferences.getString(getString(R.string.preference_sort_key), "Most recent"));
     }
 
+    //Unregisters the Onsharedpreferencelistener when the fragment view is destroyed to avoid memory leaks
     @Override
     public void onDestroyView() {
         super.onDestroyView();
