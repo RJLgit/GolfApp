@@ -8,7 +8,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-
+//View Model class to allow fragments in the app to observe certain values in the database
 public class GolfViewModel extends AndroidViewModel {
 
     private static final String TAG = "GolfViewModel";
