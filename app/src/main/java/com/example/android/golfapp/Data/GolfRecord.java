@@ -85,6 +85,8 @@ public class GolfRecord implements Serializable {
         this.date = date;
     }
 
+    //Below are the Comparator inner classes which define the sort order of the GolfRecord objects
+    //so they can be sorted by Name, Score and date. The score sorts in ascending order and the date has the most recent first
     public static class NameComparator implements Comparator<GolfRecord> {
         @Override
         public int compare(GolfRecord golfRecord, GolfRecord t1) {
