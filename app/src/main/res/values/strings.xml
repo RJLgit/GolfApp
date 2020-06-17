@@ -55,5 +55,10 @@
     <string name="toast_message_no_number_par_score">Must enter a number for both the par and score</string>
     <string name="toast_no_valid_date">Must enter a valid date in the form dd/mm/yyyy</string>
 
+    <!--Adapter strings-->
+    <string name="adapter_filter_all_rounds">All rounds</string>
+    <string name="adapter_filter_last_6_months">Last 6 months</string>
+    <string name="adapter_filter_last_3_months">Last 3 months</string>
+
 
 </resources>
