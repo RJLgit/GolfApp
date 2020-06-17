@@ -62,6 +62,10 @@
     <string name="adapter_sort_most_recent">Most recent</string>
     <string name="adapter_sort_a_to_z">Player - alphabetical</string>
     <string name="adapter_sort_score">Score</string>
+    <string name="adapter_viewholder_name">Player: %s</string>
+    <string name="adapter_viewholder_course">Course: %s</string>
+    <string name="adapter_viewholder_par">Par of: %d</string>
+    <string name="adapter_viewholder_score">Scored: %d</string>
 
 
 </resources>

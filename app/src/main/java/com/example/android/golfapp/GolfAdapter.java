@@ -42,11 +42,11 @@ public class GolfAdapter extends RecyclerView.Adapter<GolfAdapter.GolfViewHolder
     //Sets the viewholder views to hold the correct data for each item in the recyclerview
     @Override
     public void onBindViewHolder(@NonNull GolfViewHolder holder, int position) {
-        holder.nameTextView.setText("Player: " + mFilteredData.get(position).getName());
-        holder.courseTextView.setText("Course: " + mFilteredData.get(position).getCourse());
+        holder.nameTextView.setText(mContext.getString(R.string.adapter_viewholder_name, mFilteredData.get(position).getName()));
+        holder.courseTextView.setText(mContext.getString(R.string.adapter_viewholder_course, mFilteredData.get(position).getCourse()));
         holder.dateTextView.setText(getDateString(mFilteredData.get(position).getDate()));
-        holder.parTextView.setText("Par of: " + mFilteredData.get(position).getPar());
-        holder.scoreTextView.setText("Scored: " + mFilteredData.get(position).getScore());
+        holder.parTextView.setText(mContext.getString(R.string.adapter_viewholder_par, mFilteredData.get(position).getPar()));
+        holder.scoreTextView.setText(mContext.getString(R.string.adapter_viewholder_score, mFilteredData.get(position).getScore()));
     }
 
     //Helper method to format the date into a date string to display in the viewholder
