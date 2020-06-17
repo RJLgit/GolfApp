@@ -169,6 +169,8 @@ public class ListFragment extends Fragment implements SharedPreferences.OnShared
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
     }
 
+
+
     /*  private void filterDates(String x) {
             adapter.filterDates(x);
     }*/

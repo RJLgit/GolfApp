@@ -225,16 +225,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
     }
 
-/*    @Override
+    @Override
     public void onBackPressed() {
 
-        if (myEnterFragment != null && !myEnterFragment.isVisible()) {
+        if (findViewById(R.id.firstDividerView) == null) {
             //onNavigationItemSelected(bottomNavigationView.getMenu().getItem(0));
             bottomNavigationView.setSelectedItemId(bottomNavigationView.getMenu().getItem(0).getItemId());
         } else {
             super.onBackPressed();
         }
-
-
-    }*/
+    }
 }
