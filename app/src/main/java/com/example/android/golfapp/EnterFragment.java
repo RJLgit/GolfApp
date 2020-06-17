@@ -93,7 +93,7 @@ public class EnterFragment extends Fragment implements DatePickerDialog.OnDateSe
             public void onFocusChange(View view, boolean b) {
                 if (b) {
                     Log.d(TAG, "onClick: date");
-                    DialogFragment datePicker = new DatePickerFragment();
+                    DialogFragment datePicker = new DatePickerFragment(EnterFragment.this);
 
                     datePicker.show(getActivity().getSupportFragmentManager(), "date picker");
                 }
